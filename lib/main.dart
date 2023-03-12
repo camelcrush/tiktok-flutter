@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
 
 void main() {
@@ -13,8 +14,18 @@ class TikTokApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TikTok App',
+      // 전체 Theme 설정
       theme: ThemeData(
         primaryColor: const Color(0xFFE9435A),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: Sizes.size16 + Sizes.size2,
+              fontWeight: FontWeight.w600),
+        ),
       ),
       home: const SignUpScreen(),
     );
