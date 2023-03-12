@@ -2,8 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 
-class UsernameScreen extends StatelessWidget {
+class UsernameScreen extends StatefulWidget {
   const UsernameScreen({Key? key}) : super(key: key);
+
+  @override
+  State<UsernameScreen> createState() => _UsernameScreenState();
+}
+
+class _UsernameScreenState extends State<UsernameScreen> {
+  // TextEitingController : TextField() 컨트롤러 등록을 위한 변수 선언
+  final TextEditingController _usernameController = TextEditingController();
+  String _username = "";
+
+  @override
+  void initState() {
+    super.initState();
+    // TextField() Controller EventListener
+    _usernameController.addListener(() {
+      // _username Sate값 업데이트
+      setState(() {
+        _username = _usernameController.text;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +57,8 @@ class UsernameScreen extends StatelessWidget {
             ),
             Gaps.v16,
             TextField(
+              // Controller 등록
+              controller: _usernameController,
               decoration: InputDecoration(
                 hintText: 'Username',
                 enabledBorder: UnderlineInputBorder(
@@ -54,20 +77,29 @@ class UsernameScreen extends StatelessWidget {
             Gaps.v28,
             FractionallySizedBox(
               widthFactor: 1,
-              child: Container(
+              // AnimatedContainer : duration 필수
+              child: AnimatedContainer(
                 padding: const EdgeInsets.symmetric(
                   vertical: Sizes.size16,
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Sizes.size5),
-                  color: Theme.of(context).primaryColor,
+                  color: _username.isEmpty
+                      ? Colors.grey.shade300
+                      : Theme.of(context).primaryColor,
                 ),
-                child: const Text(
-                  'Next',
-                  textAlign: TextAlign.center,
+                duration: const Duration(milliseconds: 500),
+                // AnimatedDefaultTextStyle : duration 필수
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 500),
                   style: TextStyle(
-                    color: Colors.white,
+                    color:
+                        _username.isEmpty ? Colors.grey.shade400 : Colors.white,
                     fontWeight: FontWeight.w600,
+                  ),
+                  child: const Text(
+                    'Next',
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
