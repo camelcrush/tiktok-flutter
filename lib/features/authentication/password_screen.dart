@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
-import 'package:tiktokapp/features/birthday_screen.dart';
-import '../../constants/gaps.dart';
-import '../../constants/size.dart';
+import 'package:tiktokapp/features/authentication/birthday_screen.dart';
+import '../../../constants/gaps.dart';
+import '../../../constants/size.dart';
 
 class PasswordScreen extends StatefulWidget {
   const PasswordScreen({Key? key}) : super(key: key);

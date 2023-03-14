@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
-import 'package:tiktokapp/features/password_screen.dart';
+import 'package:tiktokapp/features/authentication/password_screen.dart';
 import '../../constants/gaps.dart';
 import '../../constants/size.dart';
 
