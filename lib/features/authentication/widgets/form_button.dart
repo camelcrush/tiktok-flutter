@@ -6,12 +6,16 @@ class FormButton extends StatelessWidget {
   const FormButton({
     super.key,
     required this.disabled,
+    this.formText = "Next",
   });
 
   final bool disabled;
+  final String formText;
 
   @override
   Widget build(BuildContext context) {
+    // [ FractionallySizedBox ]
+    // 부모 사이즈의 퍼센트로 크기를 줄 수 있음.
     return FractionallySizedBox(
       widthFactor: 1,
       // AnimatedContainer : duration 필수
@@ -32,8 +36,8 @@ class FormButton extends StatelessWidget {
             color: disabled ? Colors.grey.shade400 : Colors.white,
             fontWeight: FontWeight.w600,
           ),
-          child: const Text(
-            'Next',
+          child: Text(
+            formText,
             textAlign: TextAlign.center,
           ),
         ),
