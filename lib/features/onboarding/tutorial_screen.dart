@@ -1,6 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+
+enum Direction { right, left }
+
+enum Page { first, second }
 
 class TutorialScreen extends StatefulWidget {
   const TutorialScreen({Key? key}) : super(key: key);
@@ -10,22 +15,51 @@ class TutorialScreen extends StatefulWidget {
 }
 
 class _TutorialScreenState extends State<TutorialScreen> {
+  Direction _direction = Direction.right;
+  Page _showingPage = Page.first;
+
+// GestureDetector dx값에 따라 _direction State 변경
+  void _onPanUpdate(DragUpdateDetails details) {
+    if (details.delta.dx > 0) {
+      setState(() {
+        _direction = Direction.right;
+      });
+    } else {
+      setState(() {
+        _direction = Direction.left;
+      });
+    }
+  }
+
+// Drag가 멈췄을 때 trigger가 되어 _direction state값에 따라 _showingPage State 변경
+  void _onPanEnd(DragEndDetails endDetails) {
+    if (_direction == Direction.left) {
+      setState(() {
+        _showingPage = Page.second;
+      });
+    } else {
+      _showingPage = Page.first;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // DefaultTabController > TabBarView 위젯 : 스와이프 화면 구성
-    return DefaultTabController(
-      length: 3,
+    return GestureDetector(
+      onPanUpdate: _onPanUpdate,
+      onPanEnd: _onPanEnd,
       child: Scaffold(
-        body: SafeArea(
-          child: TabBarView(children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.size24,
-              ),
-              child: Column(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.size24,
+          ),
+          child: SafeArea(
+            // AnimatedCrossFade : 2개의 화면을 Fade효과를 통해 전환하는 위젯
+            child: AnimatedCrossFade(
+              firstChild: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
-                  Gaps.v52,
+                  Gaps.v80,
                   Text(
                     'Watch cool videos!',
                     style: TextStyle(
@@ -42,15 +76,10 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   )
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.size24,
-              ),
-              child: Column(
+              secondChild: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
-                  Gaps.v52,
+                  Gaps.v80,
                   Text(
                     'Follow the rules!',
                     style: TextStyle(
@@ -67,50 +96,27 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   )
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.size24,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Gaps.v52,
-                  Text(
-                    'Enjoy the ride',
-                    style: TextStyle(
-                      fontSize: Sizes.size36,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Gaps.v16,
-                  Text(
-                    'Videos are personalized for you based on what you watch, like, and share.',
-                    style: TextStyle(
-                      fontSize: Sizes.size16,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ]),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size24,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                // BottomAppBar가 DefaultTabController 밑에 있기 때문에 스와이프가 자동 설정됨
-                TabPageSelector(
-                  selectedColor: Colors.black38,
-                )
-              ],
+              // crossFadeSate에 따라 Page 보여주기
+              crossFadeState: _showingPage == Page.first
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 300),
             ),
           ),
         ),
+        bottomNavigationBar: BottomAppBar(
+            child: Padding(
+          padding: const EdgeInsets.all(Sizes.size24),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: _showingPage == Page.first ? 0 : 1,
+            child: CupertinoButton(
+              onPressed: () {},
+              color: Theme.of(context).primaryColor,
+              child: const Text('Enter the app!'),
+            ),
+          ),
+        )),
       ),
     );
   }
