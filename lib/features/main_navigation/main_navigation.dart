@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/cupertino.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({Key? key}) : super(key: key);
@@ -9,8 +8,6 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
-
   final screens = [
     const Center(
       child: Text('Home'),
@@ -29,36 +26,24 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     )
   ];
 
-  void _onTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: screens[_selectedIndex],
-        bottomNavigationBar: NavigationBar(
-          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          selectedIndex: _selectedIndex,
-          onDestinationSelected: _onTap,
-          destinations: const [
-            NavigationDestination(
-              icon: FaIcon(
-                FontAwesomeIcons.house,
-                color: Colors.black87,
-              ),
-              label: 'Home',
-            ),
-            NavigationDestination(
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: Colors.black87,
-              ),
-              label: 'Search',
-            )
-          ],
-        ));
+    // CupertinoTabScaffold를 사용하려면 main.dart에서 CupertinoApp으로 전환해야 함
+    return CupertinoTabScaffold(
+      // CupertinoTabBar는 별도로 index state를 설정할 필요가 없음
+      tabBar: CupertinoTabBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.house),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.search),
+            label: 'Search',
+          )
+        ],
+      ),
+      tabBuilder: (context, index) => screens[index],
+    );
   }
 }
