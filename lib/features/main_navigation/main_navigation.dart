@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/main_navigation/stf_screen.dart';
+import 'package:tiktokapp/features/main_navigation/widgests/post_video_button.dart';
 import 'package:tiktokapp/features/main_navigation/widgests/tab_nav.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -18,6 +20,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _onPostVideoButtonTap() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Record Video'),
+          ),
+        ),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   @override
@@ -69,6 +84,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 selectedIcon: FontAwesomeIcons.solidCompass,
                 onTap: () => _onTap(1),
               ),
+              Gaps.h24,
+              GestureDetector(
+                onTap: _onPostVideoButtonTap,
+                child: const PostVideoButton(),
+              ),
+              Gaps.h24,
               TabNav(
                 text: 'Inbox',
                 isSelected: _selectedIndex == 3,
