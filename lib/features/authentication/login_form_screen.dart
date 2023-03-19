@@ -24,11 +24,14 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
       if (_formKey.currentState!.validate()) {
         // FormKey State값 저장
         _formKey.currentState!.save();
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const InterestsScreen(),
-          ),
-        );
+        // pushAndRemoveUntil
+        // push()는 새로운 화면을 위에다가 stack하기 때문에 뒤로가기를 막기위에서는
+        // 지난 route history를 삭제해야 함. (route) => false;
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const InterestsScreen(),
+            ),
+            (route) => false);
       }
     }
   }

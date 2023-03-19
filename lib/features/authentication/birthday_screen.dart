@@ -35,11 +35,11 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
 // Stateful일 때는 context를 넘겨줄 필요 없음
   void _onNextTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const InterestsScreen(),
-      ),
-    );
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const InterestsScreen(),
+        ),
+        (route) => false);
   }
 
   void _onScaffoldTap() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/onboarding/interests_screen.dart';
+import 'package:tiktokapp/features/main_navigation/main_navigation.dart';
 
 void main() {
   runApp(const TikTokApp());
@@ -22,12 +22,15 @@ class TikTokApp extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0,
           titleTextStyle: TextStyle(
-              color: Colors.black,
-              fontSize: Sizes.size16 + Sizes.size2,
-              fontWeight: FontWeight.w600),
+            color: Colors.black,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+          // Back Button Color Theme 설정
+          iconTheme: IconThemeData(color: Colors.black87),
         ),
       ),
-      home: const InterestsScreen(),
+      home: const MainNavigationScreen(),
     );
   }
 }
