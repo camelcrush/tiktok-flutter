@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/main_navigation/stf_screen.dart';
 import 'package:tiktokapp/features/main_navigation/widgests/tab_nav.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -13,34 +14,6 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final screens = [
-    const Center(
-      child: Text(
-        'Home',
-        style: TextStyle(fontSize: 49),
-      ),
-    ),
-    const Center(
-      child: Text(
-        'Search',
-        style: TextStyle(fontSize: 49),
-      ),
-    ),
-    Container(),
-    const Center(
-      child: Text(
-        'Inbox',
-        style: TextStyle(fontSize: 49),
-      ),
-    ),
-    const Center(
-      child: Text(
-        'Profile',
-        style: TextStyle(fontSize: 49),
-      ),
-    ),
-  ];
-
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -51,7 +24,30 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     // CupertinoTabScaffold를 사용하려면 main.dart에서 CupertinoApp으로 전환해야 함
     return Scaffold(
-      body: screens.elementAt(_selectedIndex),
+      // Stateful Widget으로 된 화면 렌더링을 가진 Navigator에서 탭간 이동 시에 State값이
+      // 초기화되는 현상을 해결하기 위해 Stack, Offstage 위젯을 쓴다. (State값을 기억함)
+      // Stack : 화면 또는 위젯을 쌓아 올리는 위젯
+      body: Stack(
+        children: [
+          // Stack 내부의 위젯들을 숨겨주는 위젯
+          Offstage(
+            offstage: _selectedIndex != 0,
+            child: const StfScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 1,
+            child: const StfScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 3,
+            child: const StfScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 4,
+            child: const StfScreen(),
+          )
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Padding(
