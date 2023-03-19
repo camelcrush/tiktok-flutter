@@ -26,6 +26,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         style: TextStyle(fontSize: 49),
       ),
     ),
+    Container(),
+    const Center(
+      child: Text(
+        'Inbox',
+        style: TextStyle(fontSize: 49),
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Profile',
+        style: TextStyle(fontSize: 49),
+      ),
+    ),
   ];
 
   void _onTap(int index) {
@@ -38,6 +51,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     // CupertinoTabScaffold를 사용하려면 main.dart에서 CupertinoApp으로 전환해야 함
     return Scaffold(
+      body: screens.elementAt(_selectedIndex),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Padding(
@@ -49,24 +63,28 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 text: 'Home',
                 isSelected: _selectedIndex == 0,
                 icon: FontAwesomeIcons.house,
+                selectedIcon: FontAwesomeIcons.house,
                 onTap: () => _onTap(0),
               ),
               TabNav(
                 text: 'Discover',
                 isSelected: _selectedIndex == 1,
-                icon: FontAwesomeIcons.magnifyingGlass,
+                icon: FontAwesomeIcons.compass,
+                selectedIcon: FontAwesomeIcons.solidCompass,
                 onTap: () => _onTap(1),
               ),
               TabNav(
                 text: 'Inbox',
                 isSelected: _selectedIndex == 3,
                 icon: FontAwesomeIcons.message,
+                selectedIcon: FontAwesomeIcons.solidMessage,
                 onTap: () => _onTap(3),
               ),
               TabNav(
                 text: 'Profile',
                 isSelected: _selectedIndex == 4,
                 icon: FontAwesomeIcons.user,
+                selectedIcon: FontAwesomeIcons.solidUser,
                 onTap: () => _onTap(4),
               )
             ],
