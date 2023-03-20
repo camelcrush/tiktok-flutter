@@ -5,6 +5,7 @@ import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/main_navigation/stf_screen.dart';
 import 'package:tiktokapp/features/main_navigation/widgests/post_video_button.dart';
 import 'package:tiktokapp/features/main_navigation/widgests/tab_nav.dart';
+import 'package:tiktokapp/features/videos/videos_timeline_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({Key? key}) : super(key: key);
@@ -47,19 +48,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           // Stack 내부의 위젯들을 숨겨주는 위젯
           Offstage(
             offstage: _selectedIndex != 0,
-            child: const StfScreen(),
+            child: const VideoTimelineScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: const StfScreen(),
+            child: Container(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: const StfScreen(),
+            child: Container(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: const StfScreen(),
+            child: Container(),
           )
         ],
       ),
