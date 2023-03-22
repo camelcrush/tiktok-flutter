@@ -68,11 +68,12 @@ class _VideoPostState extends State<VideoPost>
       duration: _animationDuration,
     );
 
-    // Builder가 Animtiona Value값이 변할 때마다 렌더링을 하기 위해서는 setState를 통해
+    // Build Wideget이 Animation Value값이 변할 때마다 렌더링을 하기 위해서는 setState를 통해
     // 1.5 ~1.0 사이값을 인지할 수 있도록 해 주어야 함
-    _animationController.addListener(() {
-      setState(() {});
-    });
+    // AnimationContoller가 변할 때마다 setState()시키기
+    // _animationController.addListener(() {
+    //   setState(() {});
+    // });
   }
 
   @override
@@ -129,8 +130,17 @@ class _VideoPostState extends State<VideoPost>
               // IgnorePointer : Tap 무시해주는 위젯
               child: IgnorePointer(
             child: Center(
-              child: Transform.scale(
-                scale: _animationController.value,
+              // AnimatedBuilder : AnimationController값이 변할 때마다 bulder를 실행해주는 위젯
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  // Transform.scale 값을 child로 전달
+                  return Transform.scale(
+                    scale: _animationController.value,
+                    // child는 밑에 AnimatedOpacity임
+                    child: child,
+                  );
+                },
                 child: AnimatedOpacity(
                   opacity: _isPaused ? 1 : 0,
                   duration: _animationDuration,
