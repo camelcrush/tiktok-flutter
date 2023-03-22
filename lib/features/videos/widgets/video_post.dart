@@ -44,6 +44,11 @@ class _VideoPostState extends State<VideoPost>
   // AnimationController 선언
   late AnimationController _animationController;
 
+  final String _inputCaption =
+      "It's too long so please click 'show more' button to see detail.";
+
+  bool _isSeeMore = false;
+
   void _onVideoChanged() {
     // _videoPlayerController가 Initialized가 되면
     if (_videoPlayerController.value.isInitialized) {
@@ -121,6 +126,16 @@ class _VideoPostState extends State<VideoPost>
     });
   }
 
+  String _checkLongCaption(String text) {
+    return text.length > 25 ? "${text.substring(0, 25)} ..." : text;
+  }
+
+  void _onSeeMoreTap() {
+    setState(() {
+      _isSeeMore = !_isSeeMore;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -170,12 +185,12 @@ class _VideoPostState extends State<VideoPost>
             ),
           )),
           Positioned(
-            bottom: 20,
+            bottom: _isSeeMore ? 35 : 20,
             left: 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   '@Camel',
                   style: TextStyle(
                     color: Colors.white,
@@ -184,16 +199,40 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
                 Gaps.v10,
-                Text(
-                  'This is awesome!',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Sizes.size16,
-                  ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: _isSeeMore ? 300 : 200,
+                      child: Text(
+                        _isSeeMore
+                            ? _inputCaption
+                            : _checkLongCaption(_inputCaption),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: Sizes.size16,
+                        ),
+                      ),
+                    ),
+                    Gaps.h6,
+                  ],
                 ),
               ],
             ),
           ),
+          Positioned(
+              bottom: 20,
+              left: 230,
+              child: GestureDetector(
+                onTap: _onSeeMoreTap,
+                child: Text(
+                  _isSeeMore ? "Close" : "See More",
+                  style: const TextStyle(
+                    fontSize: Sizes.size16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )),
           Positioned(
               bottom: 20,
               right: 10,
