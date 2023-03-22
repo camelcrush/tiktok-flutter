@@ -39,6 +39,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     // CupertinoTabScaffold를 사용하려면 main.dart에서 CupertinoApp으로 전환해야 함
     return Scaffold(
+      backgroundColor: _selectedIndex == 0 ? Colors.black : Colors.white,
       // Stateful Widget으로 된 화면 렌더링을 가진 Navigator에서 탭간 이동 시에 State값이
       // 초기화되는 현상을 해결하기 위해 Stack, Offstage 위젯을 쓴다. (State값을 기억함)
       // Stack : 화면 또는 위젯을 쌓아 올리는 위젯
