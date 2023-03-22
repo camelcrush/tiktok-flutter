@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/videos/widgets/vidoe_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -33,8 +35,7 @@ class _VideoPostState extends State<VideoPost>
 // To create the [AnimationController] in a [State] that only uses a single [AnimationController], mix in this class, then pass vsync: this to the animation controller constructor.
 
   // VideoPlayerContoller 선언
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset('assets/videos/video.MOV');
+  late final VideoPlayerController _videoPlayerController;
 
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
@@ -57,8 +58,11 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _initVideoPlayer() async {
+    _videoPlayerController =
+        VideoPlayerController.asset('assets/videos/video.MOV');
     // VideoPlayerContoller를 반드시 Init하고 Play()해주어야 함, 준비시간 필요
     await _videoPlayerController.initialize();
+    await _videoPlayerController.setLooping(true);
     setState(() {});
     // _videoPlayerController에 이벤트리스너 추가
     _videoPlayerController.addListener(_onVideoChanged);
@@ -164,7 +168,59 @@ class _VideoPostState extends State<VideoPost>
                 ),
               ),
             ),
-          ))
+          )),
+          Positioned(
+            bottom: 20,
+            left: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  '@Camel',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Gaps.v10,
+                Text(
+                  'This is awesome!',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+              bottom: 20,
+              right: 10,
+              child: Column(
+                children: const [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    foregroundImage: NetworkImage(
+                        "https://lh3.googleusercontent.com/a/AGNmyxYol5lNtQShTuXHxFwtUaHFG7SJ7NgONKeSCEz9jg=s96-c-rg-br100"),
+                    child: Text("Camel"),
+                  ),
+                  Gaps.v24,
+                  VideoButton(icon: FontAwesomeIcons.solidHeart, text: '2.9M'),
+                  Gaps.v24,
+                  VideoButton(
+                    icon: FontAwesomeIcons.solidComment,
+                    text: "33K",
+                  ),
+                  Gaps.v24,
+                  VideoButton(
+                    icon: FontAwesomeIcons.share,
+                    text: "Share",
+                  )
+                ],
+              ))
         ],
       ),
     );
