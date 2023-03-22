@@ -20,8 +20,18 @@ class VideoPost extends StatefulWidget {
   State<VideoPost> createState() => _VideoPostState();
 }
 
+// [ Mixins ]
+// Mixin은 생성자가 없는 클래스를 의미한다.
+// Mixin 클래스는 상속을 할 때 extends를 하지 않고 with 를 사용한다.
+// Mixin의 핵심은 여러 클래스에 재사용이 가능하다는 점이다.
+// extends와 차이점은 extend를 하게 되면 확장한 그 클래스는 부모 클래스가 되지만 with는 부모의 인스턴스 관계가 된다.
+// 단순하게 mixin 내부의 프로퍼티를 갖고 오는 거라고 생각하면 쉽다.
+
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
+// Provides a single [Ticker] that is configured to only tick while the current tree is enabled, as defined by [TickerMode].
+// To create the [AnimationController] in a [State] that only uses a single [AnimationController], mix in this class, then pass vsync: this to the animation controller constructor.
+
   // VideoPlayerContoller 선언
   final VideoPlayerController _videoPlayerController =
       VideoPlayerController.asset('assets/videos/video.MOV');
@@ -61,6 +71,8 @@ class _VideoPostState extends State<VideoPost>
 
     // AnimationController 위젯 셋팅
     _animationController = AnimationController(
+      // animation이 부드럽게 재생되기 위해서는 Ticker가 필요하고,
+      // SingleTickerProviderStateMixin이 화면이 활성화 되었을 때 Ticker를 생성해 준다.
       vsync: this,
       lowerBound: 1.0,
       upperBound: 1.5,
