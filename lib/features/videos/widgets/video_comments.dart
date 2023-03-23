@@ -11,8 +11,25 @@ class VideoComments extends StatefulWidget {
 }
 
 class _VideoCommentsState extends State<VideoComments> {
+  bool _isWriting = false;
+
+  final ScrollController _scrollController = ScrollController();
+
   void _onPressed() {
     Navigator.of(context).pop();
+  }
+
+  void _stopWritng() {
+    FocusScope.of(context).unfocus();
+    setState(() {
+      _isWriting = false;
+    });
+  }
+
+  void _onStartWriting() {
+    setState(() {
+      _isWriting = true;
+    });
   }
 
   @override
@@ -44,113 +61,168 @@ class _VideoCommentsState extends State<VideoComments> {
         ),
         // Comments의 댓글입력 TextField()의 키보드 때문에 Stack으로 ListView를 보여주고
         // Positioned(), bottom:0을 통해 아래 Input창을 배치해 주기로 함
-        body: Stack(
-          children: [
-            ListView.separated(
-              padding: const EdgeInsets.symmetric(
-                vertical: Sizes.size10,
-                horizontal: Sizes.size20,
-              ),
-              separatorBuilder: (context, index) => Gaps.v20,
-              itemCount: 10,
-              itemBuilder: (context, index) => Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CircleAvatar(
-                    radius: 18,
-                    child: Text(
-                      "Camel",
-                      style: TextStyle(fontSize: Sizes.size12),
-                    ),
+        body: GestureDetector(
+          onTap: _stopWritng,
+          child: Stack(
+            children: [
+              Scrollbar(
+                controller: _scrollController,
+                child: ListView.separated(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.only(
+                    left: Sizes.size16,
+                    right: Sizes.size16,
+                    top: Sizes.size10,
+                    bottom: Sizes.size96 + Sizes.size20,
                   ),
-                  Gaps.h10,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Camel",
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                        Gaps.v3,
-                        const Text(
-                            "That's not it l've seen the same thing but also in a cave,")
-                      ],
-                    ),
-                  ),
-                  Gaps.h10,
-                  Column(
+                  separatorBuilder: (context, index) => Gaps.v20,
+                  itemCount: 10,
+                  itemBuilder: (context, index) => Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.heart,
-                        size: Sizes.size20,
-                        color: Colors.grey.shade600,
-                      ),
-                      Gaps.v2,
-                      Text(
-                        '52.2K',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              // TextFeild()를 감싸는 위젯은 반드시 width를 정해줘야 함
-              width: size.width,
-              child: BottomAppBar(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.size16,
-                    vertical: Sizes.size10,
-                  ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 18,
-                        backgroundColor: Colors.grey.shade600,
-                        foregroundColor: Colors.white,
-                        child: const Text(
+                        child: Text(
                           "Camel",
-                          style: TextStyle(
-                            fontSize: Sizes.size12,
-                          ),
+                          style: TextStyle(fontSize: Sizes.size12),
                         ),
                       ),
                       Gaps.h10,
                       Expanded(
-                        child: TextField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            hintText: 'Add comment...',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                Sizes.size12,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Camel",
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
                               ),
-                              borderSide: BorderSide.none,
                             ),
-                            filled: true,
-                            fillColor: Colors.grey.shade200,
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: Sizes.size10,
-                              horizontal: Sizes.size12,
-                            ),
-                          ),
+                            Gaps.v3,
+                            const Text(
+                                "That's not it l've seen the same thing but also in a cave,")
+                          ],
                         ),
                       ),
+                      Gaps.h10,
+                      Column(
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.heart,
+                            size: Sizes.size20,
+                            color: Colors.grey.shade600,
+                          ),
+                          Gaps.v2,
+                          Text(
+                            '52.2K',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                            ),
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
               ),
-            )
-          ],
+              Positioned(
+                bottom: 0,
+                // TextFeild()를 감싸는 위젯은 반드시 width를 정해줘야 함
+                width: size.width,
+                child: BottomAppBar(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.size16,
+                      vertical: Sizes.size10,
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colors.grey.shade600,
+                          foregroundColor: Colors.white,
+                          child: const Text(
+                            "Camel",
+                            style: TextStyle(
+                              fontSize: Sizes.size12,
+                            ),
+                          ),
+                        ),
+                        Gaps.h10,
+                        Expanded(
+                          child: SizedBox(
+                            height: Sizes.size44,
+                            child: TextField(
+                              onTap: _onStartWriting,
+                              // expands : input Line을 추가하기 위한 설정, maxLines, minLines도 같이 설정
+                              expands: true,
+                              maxLines: null,
+                              minLines: null,
+                              textInputAction: TextInputAction.newline,
+                              autocorrect: false,
+                              cursorColor: Theme.of(context).primaryColor,
+                              decoration: InputDecoration(
+                                hintText: 'Add comment...',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Sizes.size12,
+                                  ),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey.shade200,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: Sizes.size12,
+                                ),
+                                suffixIcon: Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: Sizes.size14),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      FaIcon(
+                                        FontAwesomeIcons.at,
+                                        color: Colors.grey.shade800,
+                                        size: Sizes.size20,
+                                      ),
+                                      Gaps.h10,
+                                      FaIcon(
+                                        FontAwesomeIcons.gift,
+                                        color: Colors.grey.shade800,
+                                        size: Sizes.size20,
+                                      ),
+                                      Gaps.h10,
+                                      FaIcon(
+                                        FontAwesomeIcons.faceSmile,
+                                        color: Colors.grey.shade800,
+                                        size: Sizes.size20,
+                                      ),
+                                      Gaps.h10,
+                                      if (_isWriting)
+                                        GestureDetector(
+                                          onTap: _stopWritng,
+                                          child: FaIcon(
+                                            FontAwesomeIcons.circleArrowUp,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            size: Sizes.size20,
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
