@@ -145,6 +145,8 @@ class _VideoPostState extends State<VideoPost>
     }
     // showModalBottomSheet은 Future를 리턴
     await showModalBottomSheet(
+      // BottomSheet에 ListView를 쓰고 스크롤을 쓰려면 true 설정
+      isScrollControlled: true,
       // VideoComments Scaffold() -> Container()에서 border 모양을 결정하기 위해 투명화
       // backgroudColor를 transparent
       backgroundColor: Colors.transparent,
