@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/discover/discover_screen.dart';
 import 'package:tiktokapp/features/main_navigation/widgests/post_video_button.dart';
 import 'package:tiktokapp/features/main_navigation/widgests/tab_nav.dart';
 import 'package:tiktokapp/features/videos/videos_timeline_screen.dart';
@@ -54,7 +55,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: Container(),
+            child: const DiscoverScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,

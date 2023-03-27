@@ -54,6 +54,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
   @override
   Widget build(BuildContext context) {
     // DefaultTabController > TabBarView 위젯 : 스와이프 화면 구성
+    // ㅇㅕ기서는 AnimatedCrossFade로 대체
     return GestureDetector(
       onPanUpdate: _onPanUpdate,
       onPanEnd: _onPanEnd,
