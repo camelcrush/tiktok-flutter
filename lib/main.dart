@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/main_navigation/main_navigation.dart';
+import 'package:tiktokapp/features/inbox/activity_screen.dart';
 
 void main() {
   runApp(const TikTokApp());
@@ -37,7 +37,7 @@ class TikTokApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black87),
         ),
       ),
-      home: const MainNavigationScreen(),
+      home: const ActivityScreen(),
     );
   }
 }
