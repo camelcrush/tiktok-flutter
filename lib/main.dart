@@ -22,6 +22,9 @@ class TikTokApp extends StatelessWidget {
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFFE9435A),
         ),
+        // Splash Effect Global 설정, splashColor, highlightColor
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,
