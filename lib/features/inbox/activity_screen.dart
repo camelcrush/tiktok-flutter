@@ -10,20 +10,64 @@ class ActivityScreen extends StatefulWidget {
   State<ActivityScreen> createState() => _ActivityScreenState();
 }
 
-class _ActivityScreenState extends State<ActivityScreen> {
+class _ActivityScreenState extends State<ActivityScreen>
+    with SingleTickerProviderStateMixin {
   // List 생성하기
   final List<String> _notifications = List.generate(20, (index) => "${index}h");
 
+// InitState없이 late를 통해 Animation Controller Init하기
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(microseconds: 200),
+  );
+
+// AnimationController를 통해 Animation 생성하기
+// Tween : 간단한 애니메이션 위젯
+  late final Animation<double> _arrowAnimation =
+      Tween(begin: 0.0, end: 0.5).animate(_animationController);
+
+  // ListTile 삭제를 위한 function
   void _onDismissed(String notification) {
     _notifications.remove(notification);
     setState(() {});
+  }
+
+  void _onTitleTap() {
+    if (_animationController.isCompleted) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("All Activities"),
+        title: GestureDetector(
+          onTap: _onTitleTap,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("All Activities"),
+              Gaps.h2,
+              // RotationTransition 회전 Animation 위젯
+              RotationTransition(
+                turns: _arrowAnimation,
+                child: const FaIcon(
+                  FontAwesomeIcons.chevronDown,
+                  size: Sizes.size14,
+                ),
+              )
+            ],
+          ),
+        ),
       ),
       body: ListView(
         children: [
