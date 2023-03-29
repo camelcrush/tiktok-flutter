@@ -42,10 +42,12 @@ class _ActivityScreenState extends State<ActivityScreen>
     }
   ];
 
+  bool _showBarrier = false;
+
 // InitState없이 late를 통해 Animation Controller Init하기
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(microseconds: 200),
+    duration: const Duration(milliseconds: 200),
   );
 
 // AnimationController를 통해 Animation 생성하기
@@ -61,18 +63,29 @@ class _ActivityScreenState extends State<ActivityScreen>
     end: Offset.zero,
   ).animate(_animationController);
 
+// AnimatedModalBarrier에 쓰일 Animation 만들기
+  late final Animation<Color?> _barrierAnimation = ColorTween(
+    begin: Colors.transparent,
+    end: Colors.black38,
+  ).animate(_animationController);
+
   // ListTile 삭제를 위한 function
   void _onDismissed(String notification) {
     _notifications.remove(notification);
     setState(() {});
   }
 
-  void _onTitleTap() {
+  void _onToggleAnimation() async {
     if (_animationController.isCompleted) {
-      _animationController.reverse();
+      // AnimatedModalBarrier가 toggle이 완료되고 난 후에 없어지게 타이밍 맞추기
+      await _animationController.reverse();
     } else {
       _animationController.forward();
     }
+
+    setState(() {
+      _showBarrier = !_showBarrier;
+    });
   }
 
   @override
@@ -86,7 +99,7 @@ class _ActivityScreenState extends State<ActivityScreen>
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-          onTap: _onTitleTap,
+          onTap: _onToggleAnimation,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -203,6 +216,13 @@ class _ActivityScreenState extends State<ActivityScreen>
                 ),
             ],
           ),
+          if (_showBarrier)
+            // AnimatedModalBarrier : 비활성화 화면 Barrier 위젯
+            AnimatedModalBarrier(
+              color: _barrierAnimation,
+              dismissible: true,
+              onDismiss: _onToggleAnimation,
+            ),
           // SlideTransition : 슬라이드 Animation 위젯
           SlideTransition(
             position: _panelAnimation,
