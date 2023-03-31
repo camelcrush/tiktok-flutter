@@ -4,8 +4,8 @@ import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/discover/discover_screen.dart';
 import 'package:tiktokapp/features/inbox/inbox_screen.dart';
-import 'package:tiktokapp/features/main_navigation/widgests/post_video_button.dart';
-import 'package:tiktokapp/features/main_navigation/widgests/tab_nav.dart';
+import 'package:tiktokapp/features/main_navigation/widgets/post_video_button.dart';
+import 'package:tiktokapp/features/main_navigation/widgets/tab_nav.dart';
 import 'package:tiktokapp/features/users/user_profile_screen.dart';
 import 'package:tiktokapp/features/videos/videos_timeline_screen.dart';
 
