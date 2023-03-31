@@ -6,6 +6,7 @@ import 'package:tiktokapp/features/discover/discover_screen.dart';
 import 'package:tiktokapp/features/inbox/inbox_screen.dart';
 import 'package:tiktokapp/features/main_navigation/widgests/post_video_button.dart';
 import 'package:tiktokapp/features/main_navigation/widgests/tab_nav.dart';
+import 'package:tiktokapp/features/users/user_profile_screen.dart';
 import 'package:tiktokapp/features/videos/videos_timeline_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 4;
 
   void _onTap(int index) {
     setState(() {
@@ -64,7 +65,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: Container(),
+            child: const UserProfileScreen(),
           )
         ],
       ),
