@@ -89,6 +89,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           ListTile(
+            title: const Text("Log out (IOS / Bottom)"),
+            textColor: Colors.red,
+            onTap: () => showCupertinoModalPopup(
+              context: context,
+              builder: (context) => CupertinoActionSheet(
+                title: const Text("Are you sure?"),
+                message: const Text("Plz don't go"),
+                actions: [
+                  CupertinoActionSheetAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    isDefaultAction: true,
+                    child: const Text("NO"),
+                  ),
+                  CupertinoActionSheetAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    isDestructiveAction: true,
+                    child: const Text("Yes"),
+                  )
+                ],
+              ),
+            ),
+          ),
+          ListTile(
             onTap: () async {
               final date = await showDatePicker(
                 context: context,
