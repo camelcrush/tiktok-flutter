@@ -30,78 +30,113 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // SafeArea : 상단 여러가지 폰의 정보 아래에서 시작
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.size40,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Gaps.v80,
-              const Text(
-                'Sign up for TikTok',
-                style: TextStyle(
-                  fontSize: Sizes.size20,
-                  fontWeight: FontWeight.w700,
-                ),
+    // OrientationBuilder : orientation을 통해 디바이스의 방향을 알려줌
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        // if (orientation == Orientation.landscape) {
+        //   return const Scaffold(
+        //     body: Center(
+        //       child: Text("Plz rotate your phon"),
+        //     ),
+        //   );
+        // }
+        return Scaffold(
+          // SafeArea : 상단 여러가지 폰의 정보 아래에서 시작
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size40,
               ),
-              Gaps.v20,
-              const Text(
-                'Create a profile, follow other accounts, make your own videos, and more.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: Sizes.size14,
-                  color: Colors.black45,
-                ),
-              ),
-              Gaps.v40,
-              GestureDetector(
-                onTap: () => _onEmailTap(context),
-                child: const AuthButton(
-                  icon: FaIcon(FontAwesomeIcons.user),
-                  text: 'Use Email & Password',
-                ),
-              ),
-              Gaps.v16,
-              const AuthButton(
-                icon: FaIcon(FontAwesomeIcons.apple),
-                text: 'Continue with Apple',
-              )
-            ],
-          ),
-        ),
-      ),
-      //bottomNavigationBar: BottomAppBar 아랫부분에 로그인
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.size32,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Already have an account?'),
-              Gaps.h5,
-              GestureDetector(
-                onTap: () => _onLoginTap(context),
-                child: Text(
-                  'Log In',
-                  style: TextStyle(
-                    fontSize: Sizes.size16,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryColor,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Gaps.v80,
+                  const Text(
+                    'Sign up for TikTok',
+                    style: TextStyle(
+                      fontSize: Sizes.size20,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
+                  Gaps.v20,
+                  const Text(
+                    'Create a profile, follow other accounts, make your own videos, and more.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: Sizes.size14,
+                      color: Colors.black45,
+                    ),
+                  ),
+                  Gaps.v40,
+                  if (orientation == Orientation.portrait) ...[
+                    GestureDetector(
+                      onTap: () => _onEmailTap(context),
+                      child: const AuthButton(
+                        icon: FaIcon(FontAwesomeIcons.user),
+                        text: 'Use Email & Password',
+                      ),
+                    ),
+                    Gaps.v16,
+                    const AuthButton(
+                      icon: FaIcon(FontAwesomeIcons.apple),
+                      text: 'Continue with Apple',
+                    ),
+                  ],
+                  if (orientation == Orientation.landscape)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => _onEmailTap(context),
+                            child: const AuthButton(
+                              icon: FaIcon(FontAwesomeIcons.user),
+                              text: 'Use Email & Password',
+                            ),
+                          ),
+                        ),
+                        Gaps.h16,
+                        const Expanded(
+                          child: AuthButton(
+                            icon: FaIcon(FontAwesomeIcons.apple),
+                            text: 'Continue with Apple',
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+          //bottomNavigationBar: BottomAppBar 아랫부분에 로그인
+          bottomNavigationBar: BottomAppBar(
+            color: Colors.grey.shade50,
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size32,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Already have an account?'),
+                  Gaps.h5,
+                  GestureDetector(
+                    onTap: () => _onLoginTap(context),
+                    child: Text(
+                      'Log In',
+                      style: TextStyle(
+                        fontSize: Sizes.size16,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
