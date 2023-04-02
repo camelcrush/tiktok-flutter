@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/gaps.dart';
@@ -50,6 +51,8 @@ class _VideoPostState extends State<VideoPost>
 
   bool _isSeeMore = false;
 
+  bool _isMuted = false;
+
   void _onVideoChanged() {
     // _videoPlayerController가 Initialized가 되면
     if (_videoPlayerController.value.isInitialized) {
@@ -69,6 +72,11 @@ class _VideoPostState extends State<VideoPost>
     // VideoPlayerContoller를 반드시 Init하고 Play()해주어야 함, 준비시간 필요
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+    // Browser Permission 정책상 첫 로드 시 동영상에 소리가 켜져 있으면 블락됨
+    // kIsWeb : Web인지 아닌지 알 수 있는 Flutter 내장 Constant
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    }
     setState(() {});
     // _videoPlayerController에 이벤트리스너 추가
     _videoPlayerController.addListener(_onVideoChanged);
@@ -101,6 +109,7 @@ class _VideoPostState extends State<VideoPost>
   @override
   void dispose() {
     _videoPlayerController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -163,6 +172,17 @@ class _VideoPostState extends State<VideoPost>
     );
     // showModalBottomSheet를 닫으면 다시 영상 재생
     _onTogglePause();
+  }
+
+  void _onMuteTap() {
+    if (_isMuted) {
+      _videoPlayerController.setVolume(1.0);
+    } else {
+      _videoPlayerController.setVolume(0);
+    }
+    setState(() {
+      _isMuted = !_isMuted;
+    });
   }
 
   @override
@@ -267,6 +287,15 @@ class _VideoPostState extends State<VideoPost>
               right: 10,
               child: Column(
                 children: [
+                  GestureDetector(
+                    onTap: _onMuteTap,
+                    child: VideoButton(
+                      icon: _isMuted
+                          ? FontAwesomeIcons.volumeXmark
+                          : FontAwesomeIcons.volumeHigh,
+                    ),
+                  ),
+                  Gaps.v24,
                   const CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.black,

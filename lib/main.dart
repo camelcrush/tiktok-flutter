@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
+import 'package:tiktokapp/features/main_navigation/main_navigation.dart';
 
 void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
@@ -55,7 +55,7 @@ class TikTokApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black87),
         ),
       ),
-      home: const SignUpScreen(),
+      home: const MainNavigationScreen(),
     );
   }
 }
