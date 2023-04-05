@@ -5,6 +5,7 @@ import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/login_screen.dart';
 import 'package:tiktokapp/features/authentication/username_screen.dart';
 import 'package:tiktokapp/features/authentication/widgets/auth_button.dart';
+import 'package:tiktokapp/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -59,12 +60,14 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   Gaps.v20,
-                  const Text(
-                    'Create a profile, follow other accounts, make your own videos, and more.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Sizes.size14,
-                      color: Colors.black45,
+                  const Opacity(
+                    opacity: 0.7,
+                    child: Text(
+                      'Create a profile, follow other accounts, make your own videos, and more.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: Sizes.size14,
+                      ),
                     ),
                   ),
                   Gaps.v40,
@@ -109,7 +112,7 @@ class SignUpScreen extends StatelessWidget {
           ),
           //bottomNavigationBar: BottomAppBar 아랫부분에 로그인
           bottomNavigationBar: BottomAppBar(
-            color: Colors.grey.shade50,
+            color: isDarkMode(context) ? null : Colors.grey.shade50,
             elevation: 2,
             child: Padding(
               padding: const EdgeInsets.symmetric(

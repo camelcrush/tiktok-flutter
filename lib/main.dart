@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/main_navigation/main_navigation.dart';
+import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
 
 void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
@@ -32,10 +32,16 @@ class TikTokApp extends StatelessWidget {
     return MaterialApp(
       title: 'TikTok App',
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.system,
       // 전체 Theme 설정
       theme: ThemeData(
+        // brightness : Text 위젯 Default Color
+        brightness: Brightness.light,
         primaryColor: const Color(0xFFE9435A),
         scaffoldBackgroundColor: Colors.white,
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade50,
+        ),
         // Text Input Cursor Color 글로벌 설정
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFFE9435A),
@@ -55,7 +61,14 @@ class TikTokApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black87),
         ),
       ),
-      home: const MainNavigationScreen(),
+      darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: const Color(0xFFE9435A),
+          scaffoldBackgroundColor: Colors.black,
+          bottomAppBarTheme: BottomAppBarTheme(
+            color: Colors.grey.shade900,
+          )),
+      home: const SignUpScreen(),
     );
   }
 }
