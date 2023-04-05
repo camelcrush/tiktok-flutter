@@ -8,6 +8,7 @@ import 'package:tiktokapp/features/main_navigation/widgets/post_video_button.dar
 import 'package:tiktokapp/features/main_navigation/widgets/tab_nav.dart';
 import 'package:tiktokapp/features/users/user_profile_screen.dart';
 import 'package:tiktokapp/features/videos/videos_timeline_screen.dart';
+import 'package:tiktokapp/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({Key? key}) : super(key: key);
@@ -40,6 +41,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = isDarkMode(context);
+
     // CupertinoTabScaffold를 사용하려면 main.dart에서 CupertinoApp으로 전환해야 함
     return Scaffold(
       // Keyboard가 올라올 때 Scaffold 화면을 resize하는 것을 false
@@ -70,7 +73,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: _selectedIndex == 0 ? Colors.black : Colors.white,
+        color: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.size12),
           child: Row(

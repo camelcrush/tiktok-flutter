@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktokapp/utils.dart';
 
 import '../../../constants/size.dart';
 
@@ -25,8 +26,11 @@ class FormButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Sizes.size5),
-          color:
-              disabled ? Colors.grey.shade300 : Theme.of(context).primaryColor,
+          color: disabled
+              ? isDarkMode(context)
+                  ? Colors.grey.shade800
+                  : Colors.grey.shade300
+              : Theme.of(context).primaryColor,
         ),
         duration: const Duration(milliseconds: 500),
         // AnimatedDefaultTextStyle : duration 필수

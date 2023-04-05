@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
+import 'package:tiktokapp/features/main_navigation/main_navigation.dart';
 
 void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
@@ -96,54 +96,66 @@ class TikTokApp extends StatelessWidget {
           // Back Button Color Theme 설정
           iconTheme: IconThemeData(color: Colors.black87),
         ),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey.shade500,
+          indicatorColor: Colors.black,
+        ),
       ),
       darkTheme: ThemeData(
-          // textTheme: TextTheme(
-          //   displayLarge: GoogleFonts.openSans(
-          //       fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
-          //   displayMedium: GoogleFonts.openSans(
-          //       fontSize: 60, fontWeight: FontWeight.w300, letterSpacing: -0.5),
-          //   displaySmall:
-          //       GoogleFonts.openSans(fontSize: 48, fontWeight: FontWeight.w400),
-          //   headlineMedium: GoogleFonts.openSans(
-          //       fontSize: 34, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-          //   headlineSmall:
-          //       GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w400),
-          //   titleLarge: GoogleFonts.openSans(
-          //       fontSize: 20, fontWeight: FontWeight.w500, letterSpacing: 0.15),
-          //   titleMedium: GoogleFonts.openSans(
-          //       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.15),
-          //   titleSmall: GoogleFonts.openSans(
-          //       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.1),
-          //   bodyLarge: GoogleFonts.roboto(
-          //       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
-          //   bodyMedium: GoogleFonts.roboto(
-          //       fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-          //   labelLarge: GoogleFonts.roboto(
-          //       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
-          //   bodySmall: GoogleFonts.roboto(
-          //       fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
-          //   labelSmall: GoogleFonts.roboto(
-          //       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
-          // ),
+        // textTheme: TextTheme(
+        //   displayLarge: GoogleFonts.openSans(
+        //       fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
+        //   displayMedium: GoogleFonts.openSans(
+        //       fontSize: 60, fontWeight: FontWeight.w300, letterSpacing: -0.5),
+        //   displaySmall:
+        //       GoogleFonts.openSans(fontSize: 48, fontWeight: FontWeight.w400),
+        //   headlineMedium: GoogleFonts.openSans(
+        //       fontSize: 34, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+        //   headlineSmall:
+        //       GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w400),
+        //   titleLarge: GoogleFonts.openSans(
+        //       fontSize: 20, fontWeight: FontWeight.w500, letterSpacing: 0.15),
+        //   titleMedium: GoogleFonts.openSans(
+        //       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.15),
+        //   titleSmall: GoogleFonts.openSans(
+        //       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.1),
+        //   bodyLarge: GoogleFonts.roboto(
+        //       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
+        //   bodyMedium: GoogleFonts.roboto(
+        //       fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+        //   labelLarge: GoogleFonts.roboto(
+        //       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
+        //   bodySmall: GoogleFonts.roboto(
+        //       fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
+        //   labelSmall: GoogleFonts.roboto(
+        //       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
+        // ),
 
-          // Google Fonts를 이용한 단일 폰트 설정
-          // textTheme: GoogleFonts.itimTextTheme(
-          //   ThemeData(brightness: Brightness.dark).textTheme,
-          // ),
+        // Google Fonts를 이용한 단일 폰트 설정
+        // textTheme: GoogleFonts.itimTextTheme(
+        //   ThemeData(brightness: Brightness.dark).textTheme,
+        // ),
 
-          // Google Fonts를 이용하지 않고 Typography를 통해 폰트 설정
-          textTheme: Typography.whiteMountainView,
-          brightness: Brightness.dark,
-          primaryColor: const Color(0xFFE9435A),
-          appBarTheme: AppBarTheme(
-            backgroundColor: Colors.grey.shade900,
-          ),
-          scaffoldBackgroundColor: Colors.black,
-          bottomAppBarTheme: BottomAppBarTheme(
-            color: Colors.grey.shade900,
-          )),
-      home: const SignUpScreen(),
+        // Google Fonts를 이용하지 않고 Typography를 통해 폰트 설정
+        textTheme: Typography.whiteMountainView,
+        brightness: Brightness.dark,
+        primaryColor: const Color(0xFFE9435A),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color(0xFFE9435A),
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey.shade900,
+        ),
+        scaffoldBackgroundColor: Colors.black,
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade900,
+        ),
+        tabBarTheme: const TabBarTheme(
+          indicatorColor: Colors.white,
+        ),
+      ),
+      home: const MainNavigationScreen(),
     );
   }
 }

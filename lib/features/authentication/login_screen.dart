@@ -4,6 +4,7 @@ import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/login_form_screen.dart';
 import 'package:tiktokapp/features/authentication/widgets/auth_button.dart';
+import 'package:tiktokapp/utils.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -40,12 +41,14 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               Gaps.v20,
-              const Text(
-                'Manage your account, check notifications, comment on videos, and more.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: Sizes.size14,
-                  color: Colors.black45,
+              const Opacity(
+                opacity: 0.7,
+                child: Text(
+                  'Manage your account, check notifications, comment on videos, and more.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: Sizes.size14,
+                  ),
                 ),
               ),
               Gaps.v40,
@@ -66,7 +69,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
+        color: isDarkMode(context) ? null : Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: Sizes.size32),

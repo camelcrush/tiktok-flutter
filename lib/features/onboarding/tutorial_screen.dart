@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/main_navigation/main_navigation.dart';
+import 'package:tiktokapp/utils.dart';
 
 enum Direction { right, left }
 
@@ -115,18 +116,20 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
+            color: isDarkMode(context) ? Colors.black : Colors.white,
             child: Padding(
-          padding: const EdgeInsets.all(Sizes.size24),
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: _showingPage == Page.first ? 0 : 1,
-            child: CupertinoButton(
-              onPressed: _showingPage == Page.second ? _onEnterAppTap : () {},
-              color: Theme.of(context).primaryColor,
-              child: const Text('Enter the app!'),
-            ),
-          ),
-        )),
+              padding: const EdgeInsets.all(Sizes.size24),
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 300),
+                opacity: _showingPage == Page.first ? 0 : 1,
+                child: CupertinoButton(
+                  onPressed:
+                      _showingPage == Page.second ? _onEnterAppTap : () {},
+                  color: Theme.of(context).primaryColor,
+                  child: const Text('Enter the app!'),
+                ),
+              ),
+            )),
       ),
     );
   }
