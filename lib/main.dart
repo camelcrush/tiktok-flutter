@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
 
@@ -66,7 +65,12 @@ class TikTokApp extends StatelessWidget {
         //   labelSmall: GoogleFonts.roboto(
         //       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
         // ),
-        textTheme: GoogleFonts.itimTextTheme(),
+
+        // Google Fonts를 이용한 단일 폰트 설정
+        // textTheme: GoogleFonts.itimTextTheme(),
+
+        // Google Fonts를 이용하지 않고 Typography를 통해 폰트 설정
+        textTheme: Typography.blackMountainView,
         // brightness : Text 위젯 Default Color
         brightness: Brightness.light,
         primaryColor: const Color(0xFFE9435A),
@@ -122,10 +126,19 @@ class TikTokApp extends StatelessWidget {
           //   labelSmall: GoogleFonts.roboto(
           //       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
           // ),
-          textTheme: GoogleFonts.itimTextTheme(
-            ThemeData(brightness: Brightness.dark).textTheme,
-          ),
+
+          // Google Fonts를 이용한 단일 폰트 설정
+          // textTheme: GoogleFonts.itimTextTheme(
+          //   ThemeData(brightness: Brightness.dark).textTheme,
+          // ),
+
+          // Google Fonts를 이용하지 않고 Typography를 통해 폰트 설정
+          textTheme: Typography.whiteMountainView,
+          brightness: Brightness.dark,
           primaryColor: const Color(0xFFE9435A),
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.grey.shade900,
+          ),
           scaffoldBackgroundColor: Colors.black,
           bottomAppBarTheme: BottomAppBarTheme(
             color: Colors.grey.shade900,
