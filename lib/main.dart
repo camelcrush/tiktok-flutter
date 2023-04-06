@@ -37,6 +37,7 @@ class TikTokApp extends StatelessWidget {
       // 앱 개발 할 때 Material Design 2의 generator를 통해 설정을 해서 시작하는 것이 좋음
       // Size와 FontWeight를 미리 설정하여 TextTheme을 활용하여 TextStyle에 통일성을 줄 수 있음
       theme: ThemeData(
+          useMaterial3: true,
           // textTheme: TextTheme(
           //   displayLarge: GoogleFonts.openSans(
           //       fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
@@ -86,7 +87,11 @@ class TikTokApp extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           appBarTheme: const AppBarTheme(
+            // surfaceTintColor : Material 3일 때 AppBar 배경색
+            surfaceTintColor: Colors.white,
             backgroundColor: Colors.white,
+            // foregroundColor : text 색 설정
+            foregroundColor: Colors.black,
             elevation: 0,
             titleTextStyle: TextStyle(
               color: Colors.black,
@@ -105,6 +110,7 @@ class TikTokApp extends StatelessWidget {
             iconColor: Colors.black,
           )),
       darkTheme: ThemeData(
+        useMaterial3: true,
         // textTheme: TextTheme(
         //   displayLarge: GoogleFonts.openSans(
         //       fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
@@ -147,7 +153,22 @@ class TikTokApp extends StatelessWidget {
           cursorColor: Color(0xFFE9435A),
         ),
         appBarTheme: AppBarTheme(
+          // surfaceTintColor : Material 3일 때 AppBar 배경색
+          surfaceTintColor: Colors.grey.shade900,
           backgroundColor: Colors.grey.shade900,
+          // foregroundColor : text 색 설정
+          foregroundColor: Colors.white,
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+          actionsIconTheme: IconThemeData(
+            color: Colors.grey.shade100,
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey.shade100,
+          ),
         ),
         scaffoldBackgroundColor: Colors.black,
         bottomAppBarTheme: BottomAppBarTheme(

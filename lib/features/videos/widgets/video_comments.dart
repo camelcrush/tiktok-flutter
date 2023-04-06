@@ -87,7 +87,7 @@ class _VideoCommentsState extends State<VideoComments> {
                         backgroundColor: isDark ? Colors.grey.shade800 : null,
                         child: const Text(
                           "Camel",
-                          style: TextStyle(fontSize: Sizes.size12),
+                          style: TextStyle(fontSize: Sizes.size10),
                         ),
                       ),
                       Gaps.h10,
@@ -132,11 +132,14 @@ class _VideoCommentsState extends State<VideoComments> {
                 bottom: 0,
                 // TextFeild()를 감싸는 위젯은 반드시 width를 정해줘야 함
                 width: size.width,
-                child: BottomAppBar(
+                child: Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.size16,
-                      vertical: Sizes.size10,
+                    padding: const EdgeInsets.only(
+                      left: Sizes.size16,
+                      right: Sizes.size16,
+                      top: Sizes.size10,
+                      bottom: Sizes.size24,
                     ),
                     child: Row(
                       children: [
@@ -147,7 +150,7 @@ class _VideoCommentsState extends State<VideoComments> {
                           child: const Text(
                             "Camel",
                             style: TextStyle(
-                              fontSize: Sizes.size12,
+                              fontSize: Sizes.size10,
                             ),
                           ),
                         ),
