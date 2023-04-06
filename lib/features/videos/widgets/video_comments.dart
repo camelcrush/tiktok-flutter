@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/utils.dart';
 
 class VideoComments extends StatefulWidget {
   const VideoComments({Key? key}) : super(key: key);
@@ -34,6 +35,7 @@ class _VideoCommentsState extends State<VideoComments> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     // MediaQuery를 통해 사용자 device사이를 알아냄
     final size = MediaQuery.of(context).size;
     return Container(
@@ -45,9 +47,9 @@ class _VideoCommentsState extends State<VideoComments> {
         borderRadius: BorderRadius.circular(Sizes.size14),
       ),
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
+        backgroundColor: isDark ? null : Colors.grey.shade50,
         appBar: AppBar(
-          backgroundColor: Colors.grey.shade50,
+          backgroundColor: isDark ? null : Colors.grey.shade50,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
@@ -80,9 +82,10 @@ class _VideoCommentsState extends State<VideoComments> {
                   itemBuilder: (context, index) => Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 18,
-                        child: Text(
+                        backgroundColor: isDark ? Colors.grey.shade800 : null,
+                        child: const Text(
                           "Camel",
                           style: TextStyle(fontSize: Sizes.size12),
                         ),
@@ -130,7 +133,6 @@ class _VideoCommentsState extends State<VideoComments> {
                 // TextFeild()를 감싸는 위젯은 반드시 width를 정해줘야 함
                 width: size.width,
                 child: BottomAppBar(
-                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: Sizes.size16,
@@ -171,7 +173,9 @@ class _VideoCommentsState extends State<VideoComments> {
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
-                                fillColor: Colors.grey.shade200,
+                                fillColor: isDark
+                                    ? Colors.grey.shade800
+                                    : Colors.grey.shade200,
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: Sizes.size12,
                                 ),
@@ -183,19 +187,25 @@ class _VideoCommentsState extends State<VideoComments> {
                                     children: [
                                       FaIcon(
                                         FontAwesomeIcons.at,
-                                        color: Colors.grey.shade800,
+                                        color: isDark
+                                            ? Colors.grey.shade500
+                                            : Colors.grey.shade800,
                                         size: Sizes.size20,
                                       ),
                                       Gaps.h10,
                                       FaIcon(
                                         FontAwesomeIcons.gift,
-                                        color: Colors.grey.shade800,
+                                        color: isDark
+                                            ? Colors.grey.shade500
+                                            : Colors.grey.shade800,
                                         size: Sizes.size20,
                                       ),
                                       Gaps.h10,
                                       FaIcon(
                                         FontAwesomeIcons.faceSmile,
-                                        color: Colors.grey.shade800,
+                                        color: isDark
+                                            ? Colors.grey.shade500
+                                            : Colors.grey.shade800,
                                         size: Sizes.size20,
                                       ),
                                       Gaps.h10,

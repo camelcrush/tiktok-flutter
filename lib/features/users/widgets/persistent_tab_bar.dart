@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/utils.dart';
 
 // SliverPersistentHeader : 중간에서 Header가 고정되는 delegate class
 class PersistentTabBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final isDark = isDarkMode(context);
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
         border: Border.symmetric(
           horizontal: BorderSide(
-            color: Colors.grey.shade300,
+            color: isDark ? Colors.grey.shade700 : Colors.grey.shade300,
             width: 0.5,
           ),
         ),
       ),
-      child: const TabBar(
-        labelPadding: EdgeInsets.symmetric(vertical: Sizes.size8),
+      child: TabBar(
+        labelPadding: const EdgeInsets.symmetric(vertical: Sizes.size8),
         indicatorSize: TabBarIndicatorSize.label,
-        indicatorColor: Colors.black,
-        labelColor: Colors.black,
-        tabs: [
+        indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
+        tabs: const [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: Sizes.size14),
             child: Icon(Icons.grid_4x4_rounded),

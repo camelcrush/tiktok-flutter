@@ -47,7 +47,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Scaffold(
       // Keyboard가 올라올 때 Scaffold 화면을 resize하는 것을 false
       resizeToAvoidBottomInset: false,
-      backgroundColor: _selectedIndex == 0 ? Colors.black : Colors.white,
+      backgroundColor:
+          _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
       // Stateful Widget으로 된 화면 렌더링을 가진 Navigator에서 탭간 이동 시에 State값이
       // 초기화되는 현상을 해결하기 위해 Stack, Offstage 위젯을 쓴다. (State값을 기억함)
       // Stack : 화면 또는 위젯을 쌓아 올리는 위젯

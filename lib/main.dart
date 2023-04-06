@@ -37,71 +37,73 @@ class TikTokApp extends StatelessWidget {
       // 앱 개발 할 때 Material Design 2의 generator를 통해 설정을 해서 시작하는 것이 좋음
       // Size와 FontWeight를 미리 설정하여 TextTheme을 활용하여 TextStyle에 통일성을 줄 수 있음
       theme: ThemeData(
-        // textTheme: TextTheme(
-        //   displayLarge: GoogleFonts.openSans(
-        //       fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
-        //   displayMedium: GoogleFonts.openSans(
-        //       fontSize: 60, fontWeight: FontWeight.w300, letterSpacing: -0.5),
-        //   displaySmall:
-        //       GoogleFonts.openSans(fontSize: 48, fontWeight: FontWeight.w400),
-        //   headlineMedium: GoogleFonts.openSans(
-        //       fontSize: 34, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-        //   headlineSmall:
-        //       GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w400),
-        //   titleLarge: GoogleFonts.openSans(
-        //       fontSize: 20, fontWeight: FontWeight.w500, letterSpacing: 0.15),
-        //   titleMedium: GoogleFonts.openSans(
-        //       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.15),
-        //   titleSmall: GoogleFonts.openSans(
-        //       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.1),
-        //   bodyLarge: GoogleFonts.roboto(
-        //       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
-        //   bodyMedium: GoogleFonts.roboto(
-        //       fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-        //   labelLarge: GoogleFonts.roboto(
-        //       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
-        //   bodySmall: GoogleFonts.roboto(
-        //       fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
-        //   labelSmall: GoogleFonts.roboto(
-        //       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
-        // ),
+          // textTheme: TextTheme(
+          //   displayLarge: GoogleFonts.openSans(
+          //       fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
+          //   displayMedium: GoogleFonts.openSans(
+          //       fontSize: 60, fontWeight: FontWeight.w300, letterSpacing: -0.5),
+          //   displaySmall:
+          //       GoogleFonts.openSans(fontSize: 48, fontWeight: FontWeight.w400),
+          //   headlineMedium: GoogleFonts.openSans(
+          //       fontSize: 34, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+          //   headlineSmall:
+          //       GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w400),
+          //   titleLarge: GoogleFonts.openSans(
+          //       fontSize: 20, fontWeight: FontWeight.w500, letterSpacing: 0.15),
+          //   titleMedium: GoogleFonts.openSans(
+          //       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.15),
+          //   titleSmall: GoogleFonts.openSans(
+          //       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.1),
+          //   bodyLarge: GoogleFonts.roboto(
+          //       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
+          //   bodyMedium: GoogleFonts.roboto(
+          //       fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+          //   labelLarge: GoogleFonts.roboto(
+          //       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
+          //   bodySmall: GoogleFonts.roboto(
+          //       fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
+          //   labelSmall: GoogleFonts.roboto(
+          //       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
+          // ),
 
-        // Google Fonts를 이용한 단일 폰트 설정
-        // textTheme: GoogleFonts.itimTextTheme(),
+          // Google Fonts를 이용한 단일 폰트 설정
+          // textTheme: GoogleFonts.itimTextTheme(),
 
-        // Google Fonts를 이용하지 않고 Typography를 통해 폰트 설정
-        textTheme: Typography.blackMountainView,
-        // brightness : Text 위젯 Default Color
-        brightness: Brightness.light,
-        primaryColor: const Color(0xFFE9435A),
-        scaffoldBackgroundColor: Colors.white,
-        bottomAppBarTheme: BottomAppBarTheme(
-          color: Colors.grey.shade50,
-        ),
-        // Text Input Cursor Color 글로벌 설정
-        textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: Color(0xFFE9435A),
-        ),
-        // Splash Effect Global 설정, splashColor, highlightColor
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: Sizes.size16 + Sizes.size2,
-            fontWeight: FontWeight.w600,
+          // Google Fonts를 이용하지 않고 Typography를 통해 폰트 설정
+          textTheme: Typography.blackMountainView,
+          // brightness : Text 위젯 Default Color
+          brightness: Brightness.light,
+          primaryColor: const Color(0xFFE9435A),
+          scaffoldBackgroundColor: Colors.white,
+          bottomAppBarTheme: BottomAppBarTheme(
+            color: Colors.grey.shade50,
           ),
-          // Back Button Color Theme 설정
-          iconTheme: IconThemeData(color: Colors.black87),
-        ),
-        tabBarTheme: TabBarTheme(
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey.shade500,
-          indicatorColor: Colors.black,
-        ),
-      ),
+          // Text Input Cursor Color 글로벌 설정
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: Color(0xFFE9435A),
+          ),
+          // Splash Effect Global 설정, splashColor, highlightColor
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: Sizes.size16 + Sizes.size2,
+              fontWeight: FontWeight.w600,
+            ),
+            // Back Button Color Theme 설정
+            iconTheme: IconThemeData(color: Colors.black87),
+          ),
+          tabBarTheme: TabBarTheme(
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey.shade500,
+            indicatorColor: Colors.black,
+          ),
+          listTileTheme: const ListTileThemeData(
+            iconColor: Colors.black,
+          )),
       darkTheme: ThemeData(
         // textTheme: TextTheme(
         //   displayLarge: GoogleFonts.openSans(
