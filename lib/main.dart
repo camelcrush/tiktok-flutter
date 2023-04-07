@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
-import 'package:flutter_gen/gen_l10n/intl_generate.dart';
+import 'package:tiktokapp/generated/l10n.dart';
 
 void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
@@ -35,8 +36,17 @@ class TikTokApp extends StatelessWidget {
       // Locale Flutter 자체 가지고 있는 텍스트 번역본 실행
       // cmd에서 flutter gen-l10n 실행
       // .dart_tool/flutter_gen/gen_l10n에서 intl_generate.dart import
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      // 위 과정을 flutter intl extension으로 대체
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ko'),
+      ],
       debugShowCheckedModeBanner: false,
       // Light/Dark Mode를 앱애 설정에 따라 설정
       themeMode: ThemeMode.system,
