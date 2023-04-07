@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/main_navigation/main_navigation.dart';
+import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
 import 'package:tiktokapp/generated/l10n.dart';
 
 void main() async {
@@ -197,7 +197,7 @@ class TikTokApp extends StatelessWidget {
           indicatorColor: Colors.white,
         ),
       ),
-      home: const MainNavigationScreen(),
+      home: const SignUpScreen(),
     );
   }
 }
