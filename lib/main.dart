@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/main_navigation/main_navigation.dart';
+import 'package:tiktokapp/features/settings/settings_screen.dart';
 
 void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
@@ -31,7 +32,19 @@ class TikTokApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TikTok App',
+      // Locale Flutter 자체 가지고 있는 텍스트 번역본 실행
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale("en"),
+        Locale("ko"),
+        Locale("es"),
+      ],
       debugShowCheckedModeBanner: false,
+      // Light/Dark Mode를 앱애 설정에 따라 설정
       themeMode: ThemeMode.system,
       // 전체 Theme 설정
       // 앱 개발 할 때 Material Design 2의 generator를 통해 설정을 해서 시작하는 것이 좋음
@@ -178,7 +191,7 @@ class TikTokApp extends StatelessWidget {
           indicatorColor: Colors.white,
         ),
       ),
-      home: const MainNavigationScreen(),
+      home: const SettingsScreen(),
     );
   }
 }
