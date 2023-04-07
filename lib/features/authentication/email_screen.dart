@@ -4,7 +4,14 @@ import 'package:tiktokapp/features/authentication/password_screen.dart';
 import '../../constants/gaps.dart';
 import '../../constants/size.dart';
 
+class EmailScreenArgs {
+  final String username;
+
+  EmailScreenArgs({required this.username});
+}
+
 class EmailScreen extends StatefulWidget {
+  static String routeName = "/email";
   const EmailScreen({Key? key}) : super(key: key);
 
   @override
@@ -65,6 +72,8 @@ class _EmailScreenState extends State<EmailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Navigator로부터 받은 Args를 가져오는 방법
+    final args = ModalRoute.of(context)!.settings.arguments as EmailScreenArgs;
     // Keyboard Avoiding을 위해 GestureDetector 위젯 사용
     return GestureDetector(
       onTap: _onScaffoldTap,
@@ -80,9 +89,9 @@ class _EmailScreenState extends State<EmailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gaps.v40,
-              const Text(
-                'What is your email?',
-                style: TextStyle(
+              Text(
+                'What is your email?, ${args.username}',
+                style: const TextStyle(
                   fontSize: Sizes.size24,
                   fontWeight: FontWeight.w700,
                 ),

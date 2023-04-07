@@ -39,10 +39,16 @@ class _UsernameScreenState extends State<UsernameScreen> {
 // Stateful일 때는 context를 넘겨줄 필요 없음
   void _onNextTap() {
     if (_username.isEmpty) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const EmailScreen(),
-      ),
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => const EmailScreen(),
+    //   ),
+    // );
+    // pushNamed에서 Args 보내는 방법
+    Navigator.pushNamed(
+      context,
+      EmailScreen.routeName,
+      arguments: EmailScreenArgs(username: _username),
     );
   }
 
