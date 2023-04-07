@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/settings/settings_screen.dart';
+import 'package:flutter_gen/gen_l10n/intl_generate.dart';
 
 void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
@@ -34,6 +35,9 @@ class TikTokApp extends StatelessWidget {
       title: 'TikTok App',
       // Locale Flutter 자체 가지고 있는 텍스트 번역본 실행
       localizationsDelegates: const [
+        // cmd에서 flutter gen-l10n 실행
+        // .dart_tool/flutter_gen/gen_l10n에서 intl_generate.dart import
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

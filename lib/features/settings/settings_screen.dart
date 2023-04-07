@@ -22,145 +22,141 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Localizations.override(
-      context: context,
-      locale: const Locale("ko"),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Settings"),
-        ),
-        body: ListView(
-          children: [
-            Switch.adaptive(
-              value: _notifications,
-              onChanged: _onNotoficationsChanged,
-            ),
-            SwitchListTile.adaptive(
-              value: _notifications,
-              onChanged: _onNotoficationsChanged,
-              title: const Text("Enable notifications"),
-              subtitle: const Text("Enable notifications"),
-            ),
-            CheckboxListTile(
-              activeColor: Colors.black,
-              value: _notifications,
-              onChanged: _onNotoficationsChanged,
-              title: const Text("Enable Notifications"),
-              subtitle: const Text("Enable Notifications"),
-            ),
-            ListTile(
-              title: const Text("Log out (IOS)"),
-              textColor: Colors.red,
-              onTap: () => showCupertinoDialog(
-                context: context,
-                builder: (context) => CupertinoAlertDialog(
-                  title: const Text("Are you sure?"),
-                  content: const Text("Plz don't go"),
-                  actions: [
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("NO"),
-                    ),
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      isDestructiveAction: true,
-                      child: const Text("Yes"),
-                    )
-                  ],
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Settings"),
+      ),
+      body: ListView(
+        children: [
+          Switch.adaptive(
+            value: _notifications,
+            onChanged: _onNotoficationsChanged,
+          ),
+          SwitchListTile.adaptive(
+            value: _notifications,
+            onChanged: _onNotoficationsChanged,
+            title: const Text("Enable notifications"),
+            subtitle: const Text("Enable notifications"),
+          ),
+          CheckboxListTile(
+            activeColor: Colors.black,
+            value: _notifications,
+            onChanged: _onNotoficationsChanged,
+            title: const Text("Enable Notifications"),
+            subtitle: const Text("Enable Notifications"),
+          ),
+          ListTile(
+            title: const Text("Log out (IOS)"),
+            textColor: Colors.red,
+            onTap: () => showCupertinoDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                title: const Text("Are you sure?"),
+                content: const Text("Plz don't go"),
+                actions: [
+                  CupertinoDialogAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("NO"),
+                  ),
+                  CupertinoDialogAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    isDestructiveAction: true,
+                    child: const Text("Yes"),
+                  )
+                ],
               ),
             ),
-            ListTile(
-              title: const Text("Log out (Android)"),
-              textColor: Colors.red,
-              onTap: () => showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  icon: const FaIcon(FontAwesomeIcons.skull),
-                  title: const Text("Are you sure?"),
-                  content: const Text("Plz don't go"),
-                  actions: [
-                    IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: const FaIcon(FontAwesomeIcons.xmark),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("Yes"),
-                    )
-                  ],
-                ),
+          ),
+          ListTile(
+            title: const Text("Log out (Android)"),
+            textColor: Colors.red,
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                icon: const FaIcon(FontAwesomeIcons.skull),
+                title: const Text("Are you sure?"),
+                content: const Text("Plz don't go"),
+                actions: [
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const FaIcon(FontAwesomeIcons.xmark),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("Yes"),
+                  )
+                ],
               ),
             ),
-            ListTile(
-              title: const Text("Log out (IOS / Bottom)"),
-              textColor: Colors.red,
-              onTap: () => showCupertinoModalPopup(
-                context: context,
-                builder: (context) => CupertinoActionSheet(
-                  title: const Text("Are you sure?"),
-                  message: const Text("Plz don't go"),
-                  actions: [
-                    CupertinoActionSheetAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      isDefaultAction: true,
-                      child: const Text("NO"),
-                    ),
-                    CupertinoActionSheetAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      isDestructiveAction: true,
-                      child: const Text("Yes"),
-                    )
-                  ],
-                ),
+          ),
+          ListTile(
+            title: const Text("Log out (IOS / Bottom)"),
+            textColor: Colors.red,
+            onTap: () => showCupertinoModalPopup(
+              context: context,
+              builder: (context) => CupertinoActionSheet(
+                title: const Text("Are you sure?"),
+                message: const Text("Plz don't go"),
+                actions: [
+                  CupertinoActionSheetAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    isDefaultAction: true,
+                    child: const Text("NO"),
+                  ),
+                  CupertinoActionSheetAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    isDestructiveAction: true,
+                    child: const Text("Yes"),
+                  )
+                ],
               ),
             ),
-            ListTile(
-              onTap: () async {
-                final date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1980),
-                  lastDate: DateTime(2050),
-                );
-                if (kDebugMode) {
-                  print(date);
-                }
-                if (!mounted) return;
-                final time = await showTimePicker(
-                  context: context,
-                  initialTime: TimeOfDay.now(),
-                );
-                if (kDebugMode) {
-                  print(time);
-                }
-                if (!mounted) return;
-                final booking = await showDateRangePicker(
-                  context: context,
-                  firstDate: DateTime(1980),
-                  lastDate: DateTime(2050),
-                  builder: (context, child) {
-                    return Theme(
-                      data: ThemeData(
-                        appBarTheme: const AppBarTheme(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.black,
-                        ),
+          ),
+          ListTile(
+            onTap: () async {
+              final date = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(1980),
+                lastDate: DateTime(2050),
+              );
+              if (kDebugMode) {
+                print(date);
+              }
+              if (!mounted) return;
+              final time = await showTimePicker(
+                context: context,
+                initialTime: TimeOfDay.now(),
+              );
+              if (kDebugMode) {
+                print(time);
+              }
+              if (!mounted) return;
+              final booking = await showDateRangePicker(
+                context: context,
+                firstDate: DateTime(1980),
+                lastDate: DateTime(2050),
+                builder: (context, child) {
+                  return Theme(
+                    data: ThemeData(
+                      appBarTheme: const AppBarTheme(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.black,
                       ),
-                      child: child!,
-                    );
-                  },
-                );
-                if (kDebugMode) {
-                  print(booking);
-                }
-              },
-              title: const Text("What is your birthday?"),
-            ),
-            // showAboutDialog or AboutListTile을 통해 앱 라이센스 법적 고지
-            const AboutListTile()
-          ],
-        ),
+                    ),
+                    child: child!,
+                  );
+                },
+              );
+              if (kDebugMode) {
+                print(booking);
+              }
+            },
+            title: const Text("What is your birthday?"),
+          ),
+          // showAboutDialog or AboutListTile을 통해 앱 라이센스 법적 고지
+          const AboutListTile()
+        ],
       ),
     );
   }
