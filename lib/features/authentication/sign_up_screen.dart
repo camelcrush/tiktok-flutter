@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/gaps.dart';
@@ -15,19 +16,43 @@ class SignUpScreen extends StatelessWidget {
 // pop: 화면 제일위에 있는걸 빼 내어서 기존 화면으로 돌아가게 함.
 // Dart에서 private 개념은 없으나 명시적으로 _표시를 둠
   void _onLoginTap(BuildContext context) async {
-    // push는 Future 타입으로 pop으로부터 데이터를 가져올 수 있음
+    // push는 Future 타입으로 pop으로부터 데이터를 받아올 수 있음
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       ),
     );
-    print(result);
+    if (kDebugMode) {
+      print(result);
+    }
   }
 
   void _onEmailTap(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const UsernameScreen(),
+      // PageRouteBuilder를 통해 Animation 효과를 줄 수 있음
+      PageRouteBuilder(
+        transitionDuration: const Duration(seconds: 1),
+        reverseTransitionDuration: const Duration(seconds: 1),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const UsernameScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          // animation값은 Double을 요구하지만 offsetAnimation : Tween을 통해 Animation값을 별도로 만들 수 있음
+          final offsetAnimation = Tween(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation);
+          //  final opacityAnimation = Tween(
+          //     begin: 0.5,
+          //     end: 1.0,
+          //   ).animate(animation);
+          return SlideTransition(
+            position: offsetAnimation,
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
       ),
     );
   }
