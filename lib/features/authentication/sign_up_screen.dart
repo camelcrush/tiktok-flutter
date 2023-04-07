@@ -14,12 +14,14 @@ class SignUpScreen extends StatelessWidget {
 // push : 화면을 위에 올려놓는것.
 // pop: 화면 제일위에 있는걸 빼 내어서 기존 화면으로 돌아가게 함.
 // Dart에서 private 개념은 없으나 명시적으로 _표시를 둠
-  void _onLoginTap(BuildContext context) {
-    Navigator.of(context).push(
+  void _onLoginTap(BuildContext context) async {
+    // push는 Future 타입으로 pop으로부터 데이터를 가져올 수 있음
+    final result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       ),
     );
+    print(result);
   }
 
   void _onEmailTap(BuildContext context) {

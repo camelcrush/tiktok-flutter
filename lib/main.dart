@@ -17,7 +17,8 @@ void main() async {
     ],
   );
 
-// SystemChrome.setSystemUIOverlayStyle : 기본 스타일 색상모드 설정
+// SystemChrome.setSystemUIOverlayStyle : Status bar 기본 스타일 색상모드 설정
+// 화면별로 설정하는 게 좋음
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle.dark,
   );
