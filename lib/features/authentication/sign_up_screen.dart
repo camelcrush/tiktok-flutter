@@ -6,6 +6,7 @@ import 'package:tiktokapp/features/authentication/login_screen.dart';
 import 'package:tiktokapp/features/authentication/username_screen.dart';
 import 'package:tiktokapp/features/authentication/widgets/auth_button.dart';
 import 'package:tiktokapp/utils.dart';
+import 'package:flutter_gen/gen_l10n/intl_generate.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -53,11 +54,13 @@ class SignUpScreen extends StatelessWidget {
                 children: [
                   Gaps.v80,
                   // TextTheme을 통한 Style 설정
-                  const Text('Sign up for TikTok',
-                      style: TextStyle(
-                        fontSize: Sizes.size24,
-                        fontWeight: FontWeight.w700,
-                      )),
+                  Text(
+                    AppLocalizations.of(context)!.signUpTitle('TikTok'),
+                    style: const TextStyle(
+                      fontSize: Sizes.size24,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   Gaps.v20,
                   const Opacity(
                     opacity: 0.7,
