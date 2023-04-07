@@ -31,6 +31,8 @@ class TikTokApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // 앱 Locale 변환하기
+    // S.load(const Locale('ko'));
     return MaterialApp(
       title: 'TikTok App',
       // Locale Flutter 자체 가지고 있는 텍스트 번역본 실행
