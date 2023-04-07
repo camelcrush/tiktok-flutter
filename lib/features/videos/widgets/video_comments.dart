@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/generated/l10n.dart';
 import 'package:tiktokapp/utils.dart';
 
 class VideoComments extends StatefulWidget {
@@ -59,7 +60,9 @@ class _VideoCommentsState extends State<VideoComments> {
               ),
             ),
           ],
-          title: const Text("2,399 comments"),
+          title: Text(
+            S.of(context).commentTitle(54342, 54342),
+          ),
         ),
         // Comments의 댓글입력 TextField()의 키보드 때문에 Stack으로 ListView를 보여주고
         // Positioned(), bottom:0을 통해 아래 Input창을 배치해 주기로 함
