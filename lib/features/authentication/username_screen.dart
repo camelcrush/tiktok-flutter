@@ -6,7 +6,8 @@ import 'package:tiktokapp/features/authentication/email_screen.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
 
 class UsernameScreen extends StatefulWidget {
-  static String routeName = "/username";
+  static String routeName = "username";
+  static String routeURL = "username";
   const UsernameScreen({Key? key}) : super(key: key);
 
   @override
@@ -54,7 +55,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
     // );
 
     // Router extra라를 통해 args를 보내는 방법
-    context.push(
+    context.pushNamed(
       EmailScreen.routeName,
       extra: EmailScreenArgs(username: _username),
     );

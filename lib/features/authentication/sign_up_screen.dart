@@ -10,7 +10,8 @@ import 'package:tiktokapp/generated/l10n.dart';
 import 'package:tiktokapp/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
-  static String routeName = "/";
+  static String routeName = "signUp";
+  static String routeURL = "/";
   const SignUpScreen({Key? key}) : super(key: key);
 
 // push : 화면을 위에 올려놓는것.
@@ -61,7 +62,7 @@ class SignUpScreen extends StatelessWidget {
     // );
 
     // Navigator.of(context).pushNamed(UsernameScreen.routeName);
-    context.push(UsernameScreen.routeName);
+    context.pushNamed(UsernameScreen.routeName);
 
     // queryParams 예시
     // context.push("/users/camel?show=likes");
