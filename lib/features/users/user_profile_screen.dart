@@ -7,7 +7,8 @@ import 'package:tiktokapp/features/users/widgets/persistent_tab_bar.dart';
 import 'package:tiktokapp/utils.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({Key? key}) : super(key: key);
+  final String username;
+  const UserProfileScreen({Key? key, required this.username}) : super(key: key);
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -37,7 +38,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  title: const Text("Camel"),
+                  title: Text(widget.username),
                   actions: [
                     IconButton(
                       onPressed: _onGearPressed,
@@ -61,9 +62,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            "@Camel",
-                            style: TextStyle(
+                          Text(
+                            "@${widget.username}",
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: Sizes.size18,
                             ),
