@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/login_screen.dart';
@@ -25,7 +26,9 @@ class SignUpScreen extends StatelessWidget {
     // if (kDebugMode) {
     //   print(result);
     // }
-    Navigator.of(context).pushNamed(LoginScreen.routeName);
+
+    // Navigator.of(context).pushNamed(LoginScreen.routeName);
+    context.push(LoginScreen.routeName);
   }
 
   void _onEmailTap(BuildContext context) {
@@ -56,7 +59,9 @@ class SignUpScreen extends StatelessWidget {
     //     },
     //   ),
     // );
-    Navigator.of(context).pushNamed(UsernameScreen.routeName);
+
+    // Navigator.of(context).pushNamed(UsernameScreen.routeName);
+    context.push(UsernameScreen.routeName);
   }
 
   @override

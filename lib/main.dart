@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/authentication/email_screen.dart';
-import 'package:tiktokapp/features/authentication/login_screen.dart';
-import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
-import 'package:tiktokapp/features/authentication/username_screen.dart';
 import 'package:tiktokapp/generated/l10n.dart';
+import 'package:tiktokapp/router.dart';
 
 void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
@@ -37,7 +34,8 @@ class TikTokApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // 앱 Locale 변환하기
     // S.load(const Locale('ko'));
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       title: 'TikTok App',
       // Locale Flutter 자체 가지고 있는 텍스트 번역본 실행
       // cmd에서 flutter gen-l10n 실행
@@ -201,13 +199,6 @@ class TikTokApp extends StatelessWidget {
           indicatorColor: Colors.white,
         ),
       ),
-      initialRoute: SignUpScreen.routeName,
-      routes: {
-        SignUpScreen.routeName: (context) => const SignUpScreen(),
-        LoginScreen.routeName: (context) => const LoginScreen(),
-        UsernameScreen.routeName: (context) => const UsernameScreen(),
-        EmailScreen.routeName: (context) => const EmailScreen(),
-      },
     );
   }
 }
