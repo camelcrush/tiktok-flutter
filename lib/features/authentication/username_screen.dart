@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/email_screen.dart';
@@ -44,11 +45,18 @@ class _UsernameScreenState extends State<UsernameScreen> {
     //     builder: (context) => const EmailScreen(),
     //   ),
     // );
+
     // pushNamed에서 Args 보내는 방법
-    Navigator.pushNamed(
-      context,
+    // Navigator.pushNamed(
+    //   context,
+    //   EmailScreen.routeName,
+    //   arguments: EmailScreenArgs(username: _username),
+    // );
+
+    // Router extra라를 통해 args를 보내는 방법
+    context.push(
       EmailScreen.routeName,
-      arguments: EmailScreenArgs(username: _username),
+      extra: EmailScreenArgs(username: _username),
     );
   }
 

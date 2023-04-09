@@ -62,6 +62,9 @@ class SignUpScreen extends StatelessWidget {
 
     // Navigator.of(context).pushNamed(UsernameScreen.routeName);
     context.push(UsernameScreen.routeName);
+
+    // queryParams 예시
+    // context.push("/users/camel?show=likes");
   }
 
   @override

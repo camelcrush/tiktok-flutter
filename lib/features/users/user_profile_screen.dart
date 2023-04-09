@@ -8,7 +8,12 @@ import 'package:tiktokapp/utils.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String username;
-  const UserProfileScreen({Key? key, required this.username}) : super(key: key);
+  final String tab;
+  const UserProfileScreen({
+    Key? key,
+    required this.username,
+    required this.tab,
+  }) : super(key: key);
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -31,6 +36,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(
         child: DefaultTabController(
+          initialIndex: widget.tab == 'likes' ? 1 : 0,
           length: 2,
           // CustomScrollView는 Sliver 속성의 위젯만 쓸 수 있음
           // NestedScrollView : Sliver속성과 TabBar의 스크롤 중첩문제로 인해 사용이 불가한 CustomScrollView를 보완한 위젯
