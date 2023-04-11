@@ -13,8 +13,10 @@ class VideoRecordingScreen extends StatefulWidget {
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   bool _hasPermission = false;
+  bool _isSelfieMode = false;
+  late FlashMode _flashMode;
 
-  late final CameraController _cameraController;
+  late CameraController _cameraController;
 
   // Camera Init Fn
   Future<void> _initCamera() async {
@@ -25,11 +27,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     }
 
     _cameraController = CameraController(
-      cameras[0],
+      cameras[_isSelfieMode ? 1 : 0],
       ResolutionPreset.ultraHigh,
     );
 
     await _cameraController.initialize();
+
+    _flashMode = _cameraController.value.flashMode;
   }
 
   // Permission을 묻는 Fn
@@ -55,6 +59,24 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     _initPermissions();
   }
 
+  Future<void> _toggleSelfieMode() async {
+    _isSelfieMode = !_isSelfieMode;
+    _initCamera();
+    setState(() {});
+  }
+
+  Future<void> _setFlashMode(FlashMode newFlashMode) async {
+    await _cameraController.setFlashMode(newFlashMode);
+    _flashMode = newFlashMode;
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +97,57 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                   CircularProgressIndicator.adaptive(),
                 ],
               )
-            : CameraPreview(_cameraController),
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  CameraPreview(_cameraController),
+                  Positioned(
+                    top: Sizes.size20,
+                    right: Sizes.size20,
+                    child: Column(
+                      children: [
+                        IconButton(
+                          onPressed: _toggleSelfieMode,
+                          color: Colors.white,
+                          icon: const Icon(Icons.cameraswitch),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          onPressed: () => _setFlashMode(FlashMode.off),
+                          color: _flashMode == FlashMode.off
+                              ? Colors.amber.shade200
+                              : Colors.white,
+                          icon: const Icon(Icons.flash_off_rounded),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          onPressed: () => _setFlashMode(FlashMode.always),
+                          color: _flashMode == FlashMode.always
+                              ? Colors.amber.shade200
+                              : Colors.white,
+                          icon: const Icon(Icons.flash_on_rounded),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          onPressed: () => _setFlashMode(FlashMode.auto),
+                          color: _flashMode == FlashMode.auto
+                              ? Colors.amber.shade200
+                              : Colors.white,
+                          icon: const Icon(Icons.flash_auto_rounded),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          onPressed: () => _setFlashMode(FlashMode.torch),
+                          color: _flashMode == FlashMode.torch
+                              ? Colors.amber.shade200
+                              : Colors.white,
+                          icon: const Icon(Icons.flashlight_on_rounded),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
       ),
     );
   }
