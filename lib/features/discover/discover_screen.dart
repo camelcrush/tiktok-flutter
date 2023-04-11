@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/breakpoints.dart';
@@ -43,11 +44,15 @@ class _DiscoverScreenState extends State<DiscoverScreen>
   }
 
   void _onSearchChanged(String value) {
-    print("Searching form $value");
+    if (kDebugMode) {
+      print("Searching form $value");
+    }
   }
 
   void _onSearchSubmitted(String value) {
-    print("Submitted $value");
+    if (kDebugMode) {
+      print("Submitted $value");
+    }
   }
 
   void _onScaffoldTap() {
