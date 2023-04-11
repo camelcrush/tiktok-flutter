@@ -11,12 +11,32 @@ class VideoRecordingScreen extends StatefulWidget {
   State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
 }
 
-class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
+class _VideoRecordingScreenState extends State<VideoRecordingScreen>
+    with TickerProviderStateMixin {
   bool _hasPermission = false;
   bool _isSelfieMode = false;
   late FlashMode _flashMode;
 
   late CameraController _cameraController;
+
+  late final AnimationController _buttonAnimationController =
+      AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 200),
+  );
+
+  late final Animation<double> _buttonAnimation =
+      Tween(begin: 1.0, end: 1.3).animate(_buttonAnimationController);
+
+  // _progressAnimationController.value값을 쓰기 위해 Animation을 따로 만들지 않음
+  // addListener, addStatusListener, CircularProgressIndcator의 value로 쓰기 위해
+  late final AnimationController _progressAnimationController =
+      AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 10),
+    lowerBound: 0.0,
+    upperBound: 1.0,
+  );
 
   // Camera Init Fn
   Future<void> _initCamera() async {
@@ -57,6 +77,20 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   void initState() {
     super.initState();
     _initPermissions();
+    // progressAnimationController에게 이벤트 리스터를 추가하여
+    // Controller값이 변할 때마다(value) addListener()안의 함수를 호출
+    // 여기서는 setState()를 호출하기에, Build에게 state값이 변했다고 알려줌으로서 화면을 Rebuild하게 함
+    _progressAnimationController.addListener(() {
+      setState(() {});
+    });
+    // progressAnimationController에게 Status 리스너를 추가하여
+    // Animation값이 변할때마다(AnimationStatus) 함수를 호출하게 함
+    _progressAnimationController.addStatusListener((status) {
+      // Animation이 완료되면 녹화 멈추기
+      if (status == AnimationStatus.completed) {
+        _stopRecording();
+      }
+    });
   }
 
   Future<void> _toggleSelfieMode() async {
@@ -69,6 +103,16 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     await _cameraController.setFlashMode(newFlashMode);
     _flashMode = newFlashMode;
     setState(() {});
+  }
+
+  void _startRecording(TapDownDetails _) {
+    _buttonAnimationController.forward();
+    _progressAnimationController.forward();
+  }
+
+  void _stopRecording() {
+    _buttonAnimationController.reverse();
+    _progressAnimationController.reset();
   }
 
   @override
@@ -144,6 +188,39 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                           icon: const Icon(Icons.flashlight_on_rounded),
                         ),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: Sizes.size40,
+                    child: GestureDetector(
+                      onTapDown: _startRecording,
+                      // onTapUp은 TapUpDetails : details args가 필요없기 떄문에 아래와 같이 흘려보냄
+                      onTapUp: (details) => _stopRecording(),
+                      child: ScaleTransition(
+                        scale: _buttonAnimation,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                              width: Sizes.size80 + Sizes.size14,
+                              height: Sizes.size80 + Sizes.size14,
+                              child: CircularProgressIndicator(
+                                color: Colors.red.shade400,
+                                strokeWidth: Sizes.size6,
+                                value: _progressAnimationController.value,
+                              ),
+                            ),
+                            Container(
+                              width: Sizes.size80,
+                              height: Sizes.size80,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red.shade400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   )
                 ],
