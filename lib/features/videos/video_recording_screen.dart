@@ -19,6 +19,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   bool _hasPermission = false;
   bool _isSelfieMode = false;
   late FlashMode _flashMode;
+  late double _currentZoom;
+  late double _maxZoom;
+  late double _minZoom;
 
   late CameraController _cameraController;
 
@@ -55,11 +58,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
 
     await _cameraController.initialize();
-
     // Only for IOS
     await _cameraController.prepareForVideoRecording();
-
     _flashMode = _cameraController.value.flashMode;
+    // Camera Zoom Valute 설정
+    _maxZoom = await _cameraController.getMaxZoomLevel();
+    _minZoom = await _cameraController.getMinZoomLevel();
+    _currentZoom = _minZoom;
 
     setState(() {});
   }
@@ -142,6 +147,19 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         ),
       ),
     );
+  }
+
+  Future<void> _changeCameraZoom(DragUpdateDetails details) async {
+    double deltaY = details.delta.dy;
+    print(deltaY);
+    if (deltaY >= 0) {
+      _currentZoom = _currentZoom <= _minZoom ? _minZoom : _currentZoom - 0.05;
+    } else if (deltaY < 0) {
+      _currentZoom = _currentZoom >= _maxZoom ? _maxZoom : _currentZoom + 0.05;
+    }
+
+    await _cameraController.setZoomLevel(_currentZoom);
+    setState(() {});
   }
 
   @override
@@ -259,6 +277,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                       children: [
                         const Spacer(),
                         GestureDetector(
+                          onPanUpdate: _changeCameraZoom,
+                          onPanEnd: (detail) => _stopRecording(),
                           onTapDown: _startRecording,
                           // onTapUp은 TapUpDetails : details args가 필요없기 떄문에 아래와 같이 흘려보냄
                           onTapUp: (details) => _stopRecording(),
