@@ -15,7 +15,7 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _hasPermission = false;
   bool _isSelfieMode = false;
   late FlashMode _flashMode;
@@ -60,6 +60,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.prepareForVideoRecording();
 
     _flashMode = _cameraController.value.flashMode;
+
+    setState(() {});
   }
 
   // Permission을 묻는 Fn
@@ -82,6 +84,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void initState() {
     super.initState();
+    // App Satate 관리를 위해 WidgetsBingding의 Observer를 추가
+    WidgetsBinding.instance.addObserver(this);
     _initPermissions();
     // progressAnimationController에게 이벤트 리스터를 추가하여
     // Controller값이 변할 때마다(value) addListener()안의 함수를 호출
@@ -162,6 +166,21 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         ),
       ),
     );
+  }
+
+  // App이 background상태로 오갈 때 dispose/initCamera를 하기 위해 사용
+  // WidgetsBindingObserver Mixin에 포함된 Method
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // permission 승인 팝업창이 뜨는데 백그라운드 상태로 진입하는 것으로 판단하게 되어 예외처리
+    if (!_hasPermission) return;
+    if (!_cameraController.value.isInitialized) return;
+    if (state == AppLifecycleState.inactive) {
+      _cameraController.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      _initCamera();
+    }
+    super.didChangeAppLifecycleState(state);
   }
 
   @override
