@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktokapp/common/widgets/video_config/video_config.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/videos/widgets/video_comments.dart';
@@ -208,32 +209,47 @@ class _VideoPostState extends State<VideoPost>
             ),
           ),
           Positioned.fill(
-              // IgnorePointer : Tap 무시해주는 위젯
-              child: IgnorePointer(
-            child: Center(
-              // AnimatedBuilder : AnimationController값이 변할 때마다 bulder를 실행해주는 위젯
-              child: AnimatedBuilder(
-                animation: _animationController,
-                builder: (context, child) {
-                  // Transform.scale 값을 child로 전달
-                  return Transform.scale(
-                    scale: _animationController.value,
-                    // child는 밑에 AnimatedOpacity임
-                    child: child,
-                  );
-                },
-                child: AnimatedOpacity(
-                  opacity: _isPaused ? 1 : 0,
-                  duration: _animationDuration,
-                  child: const FaIcon(
-                    FontAwesomeIcons.play,
-                    color: Colors.white,
-                    size: Sizes.size52,
+            // IgnorePointer : Tap 무시해주는 위젯
+            child: IgnorePointer(
+              child: Center(
+                // AnimatedBuilder : AnimationController값이 변할 때마다 bulder를 실행해주는 위젯
+                child: AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (context, child) {
+                    // Transform.scale 값을 child로 전달
+                    return Transform.scale(
+                      scale: _animationController.value,
+                      // child는 밑에 AnimatedOpacity임
+                      child: child,
+                    );
+                  },
+                  child: AnimatedOpacity(
+                    opacity: _isPaused ? 1 : 0,
+                    duration: _animationDuration,
+                    child: const FaIcon(
+                      FontAwesomeIcons.play,
+                      color: Colors.white,
+                      size: Sizes.size52,
+                    ),
                   ),
                 ),
               ),
             ),
-          )),
+          ),
+          Positioned(
+            top: Sizes.size40,
+            right: Sizes.size20,
+            child: IconButton(
+              icon: FaIcon(
+                // VideoConfig.of를 통해 context 및 state 접근
+                VideoConfig.of(context).autoMute
+                    ? FontAwesomeIcons.volumeOff
+                    : FontAwesomeIcons.volumeHigh,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+            ),
+          ),
           Positioned(
             bottom: _isSeeMore ? 35 : 20,
             left: 10,
