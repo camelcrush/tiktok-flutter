@@ -5,7 +5,15 @@ import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  const ChatDetailScreen({Key? key}) : super(key: key);
+  static const String routeName = "chatDetail";
+  static const String routeURL = ":chatId";
+
+  final String chatId;
+
+  const ChatDetailScreen({
+    Key? key,
+    required this.chatId,
+  }) : super(key: key);
 
   @override
   State<ChatDetailScreen> createState() => _ChatDetailScreenState();
@@ -51,9 +59,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               )
             ],
           ),
-          title: const Text(
-            "Camel",
-            style: TextStyle(
+          title: Text(
+            "Camel (${widget.chatId})",
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),

@@ -2,9 +2,13 @@ import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/common/widgets/main_navigation/main_navigation.dart';
 import 'package:tiktokapp/features/authentication/login_screen.dart';
 import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
+import 'package:tiktokapp/features/inbox/activity_screen.dart';
+import 'package:tiktokapp/features/inbox/chat_detail_screen.dart';
+import 'package:tiktokapp/features/inbox/chats_screen.dart';
 import 'package:tiktokapp/features/onboarding/interests_screen.dart';
 
 final router = GoRouter(
+  initialLocation: "/inbox",
   routes: [
     GoRoute(
       name: SignUpScreen.routeName,
@@ -28,7 +32,26 @@ final router = GoRouter(
         final tab = state.params["tab"]!;
         return MainNavigationScreen(tab: tab);
       },
-    )
+    ),
+    GoRoute(
+      path: ActivityScreen.routeURL,
+      name: ActivityScreen.routeName,
+      builder: (context, state) => const ActivityScreen(),
+    ),
+    GoRoute(
+        path: ChatsScreen.routeURL,
+        name: ChatsScreen.routeName,
+        builder: (context, state) => const ChatsScreen(),
+        routes: [
+          GoRoute(
+            path: ChatDetailScreen.routeURL,
+            name: ChatDetailScreen.routeName,
+            builder: (context, state) {
+              final chatId = state.params['chatId']!;
+              return ChatDetailScreen(chatId: chatId);
+            },
+          )
+        ])
   ],
 );
 
