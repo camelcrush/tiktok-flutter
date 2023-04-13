@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/email_screen.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
 
 class UsernameScreen extends StatefulWidget {
-  static String routeName = "username";
-  static String routeURL = "username";
   const UsernameScreen({Key? key}) : super(key: key);
 
   @override
@@ -41,11 +38,11 @@ class _UsernameScreenState extends State<UsernameScreen> {
 // Stateful일 때는 context를 넘겨줄 필요 없음
   void _onNextTap() {
     if (_username.isEmpty) return;
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => const EmailScreen(),
-    //   ),
-    // );
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EmailScreen(username: _username),
+      ),
+    );
 
     // pushNamed에서 Args 보내는 방법
     // Navigator.pushNamed(
@@ -54,11 +51,11 @@ class _UsernameScreenState extends State<UsernameScreen> {
     //   arguments: EmailScreenArgs(username: _username),
     // );
 
-    // Router extra라를 통해 args를 보내는 방법
-    context.pushNamed(
-      EmailScreen.routeName,
-      extra: EmailScreenArgs(username: _username),
-    );
+    // Router extra를 통해 args를 보내는 방법
+    // context.pushNamed(
+    //   EmailScreen.routeName,
+    //   extra: EmailScreenArgs(username: _username),
+    // );
   }
 
   void _onScaffoldTap() {

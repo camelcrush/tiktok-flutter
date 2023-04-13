@@ -29,7 +29,7 @@ class SignUpScreen extends StatelessWidget {
     // }
 
     // Navigator.of(context).pushNamed(LoginScreen.routeName);
-    context.push(LoginScreen.routeName);
+    context.pushNamed(LoginScreen.routeName);
   }
 
   void _onEmailTap(BuildContext context) {
@@ -61,8 +61,13 @@ class SignUpScreen extends StatelessWidget {
     //   ),
     // );
 
-    // Navigator.of(context).pushNamed(UsernameScreen.routeName);
-    context.pushNamed(UsernameScreen.routeName);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const UsernameScreen(),
+      ),
+    );
+    // context.pushNamed(UsernameScreen.routeName);
 
     // queryParams 예시
     // context.push("/users/camel?show=likes");

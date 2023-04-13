@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
@@ -27,11 +28,12 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
         // pushAndRemoveUntil
         // push()는 새로운 화면을 위에다가 stack하기 때문에 뒤로가기를 막기위에서는
         // 지난 route history를 삭제해야 함. (route) => false;
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const InterestsScreen(),
-            ),
-            (route) => false);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     MaterialPageRoute(
+        //       builder: (context) => const InterestsScreen(),
+        //     ),
+        //     (route) => false);
+        context.goNamed(InterestsScreen.routeName);
       }
     }
   }
