@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/common/widgets/main_navigation/main_navigation.dart';
 import 'package:tiktokapp/features/authentication/login_screen.dart';
@@ -6,6 +7,7 @@ import 'package:tiktokapp/features/inbox/activity_screen.dart';
 import 'package:tiktokapp/features/inbox/chat_detail_screen.dart';
 import 'package:tiktokapp/features/inbox/chats_screen.dart';
 import 'package:tiktokapp/features/onboarding/interests_screen.dart';
+import 'package:tiktokapp/features/videos/video_recording_screen.dart';
 
 final router = GoRouter(
   initialLocation: "/inbox",
@@ -39,19 +41,38 @@ final router = GoRouter(
       builder: (context, state) => const ActivityScreen(),
     ),
     GoRoute(
-        path: ChatsScreen.routeURL,
-        name: ChatsScreen.routeName,
-        builder: (context, state) => const ChatsScreen(),
-        routes: [
-          GoRoute(
-            path: ChatDetailScreen.routeURL,
-            name: ChatDetailScreen.routeName,
-            builder: (context, state) {
-              final chatId = state.params['chatId']!;
-              return ChatDetailScreen(chatId: chatId);
-            },
-          )
-        ])
+      path: ChatsScreen.routeURL,
+      name: ChatsScreen.routeName,
+      builder: (context, state) => const ChatsScreen(),
+      routes: [
+        GoRoute(
+          path: ChatDetailScreen.routeURL,
+          name: ChatDetailScreen.routeName,
+          builder: (context, state) {
+            final chatId = state.params['chatId']!;
+            return ChatDetailScreen(chatId: chatId);
+          },
+        )
+      ],
+    ),
+    GoRoute(
+      path: VideoRecordingScreen.routeURL,
+      name: VideoRecordingScreen.routeName,
+      pageBuilder: (context, state) => CustomTransitionPage(
+        transitionDuration: const Duration(milliseconds: 200),
+        child: const VideoRecordingScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final position = Tween(
+            begin: const Offset(0, 1),
+            end: Offset.zero,
+          ).animate(animation);
+          return SlideTransition(
+            position: position,
+            child: child,
+          );
+        },
+      ),
+    )
   ],
 );
 

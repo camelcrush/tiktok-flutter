@@ -11,6 +11,9 @@ import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/videos/video_preview_screen.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
+  static const String routeName = "postVideo";
+  static const String routeURL = "/upload";
+
   const VideoRecordingScreen({Key? key}) : super(key: key);
 
   @override
@@ -174,7 +177,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    if (!_noCamera) {
+      _cameraController.dispose();
+    }
     _buttonAnimationController.dispose();
     _progressAnimationController.dispose();
     super.dispose();
@@ -200,6 +205,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   // WidgetsBindingObserver Mixin에 포함된 Method
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_noCamera) return;
     // permission 승인 팝업창이 뜨는데 백그라운드 상태로 진입하는 것으로 판단하게 되어 예외처리
     if (!_hasPermission) return;
     if (!_cameraController.value.isInitialized) return;
@@ -236,6 +242,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                 children: [
                   if (!_noCamera && _cameraController.value.isInitialized)
                     CameraPreview(_cameraController),
+                  const Positioned(
+                    top: Sizes.size40,
+                    left: Sizes.size20,
+                    child: CloseButton(
+                      color: Colors.white,
+                    ),
+                  ),
                   if (!_noCamera)
                     Positioned(
                       top: Sizes.size20,
