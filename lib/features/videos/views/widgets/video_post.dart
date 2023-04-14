@@ -44,7 +44,8 @@ class _VideoPostState extends State<VideoPost>
 
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
-  bool _isPaused = false;
+  late bool _isPaused = context.read<PlaybackConfigViewModel>().autoplay;
+  late bool _isMuted = context.read<PlaybackConfigViewModel>().muted;
   // ChageNotifier
   // bool _autoMute = videoConfig.autoMute;
 
@@ -86,6 +87,7 @@ class _VideoPostState extends State<VideoPost>
     setState(() {});
     // _videoPlayerController에 이벤트리스너 추가
     _videoPlayerController.addListener(_onVideoChanged);
+    _videoPlayerController.setVolume(_isMuted ? 0 : 1);
   }
 
   @override
@@ -185,6 +187,13 @@ class _VideoPostState extends State<VideoPost>
     });
   }
 
+  void _onToggleMute() {
+    _videoPlayerController.setVolume(_isMuted ? 1 : 0);
+    setState(() {
+      _isMuted = !_isMuted;
+    });
+  }
+
   String _checkLongCaption(String text) {
     return text.length > 25 ? "${text.substring(0, 25)} ..." : text;
   }
@@ -267,15 +276,13 @@ class _VideoPostState extends State<VideoPost>
             right: Sizes.size20,
             child: IconButton(
               icon: FaIcon(
-                context.watch<PlaybackConfigViewModel>().muted
+                _isMuted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
               onPressed: () {
-                context
-                    .read<PlaybackConfigViewModel>()
-                    .setMuted(!context.read<PlaybackConfigViewModel>().muted);
+                _onToggleMute();
               },
             ),
           ),
