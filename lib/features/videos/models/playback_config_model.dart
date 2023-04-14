@@ -1,4 +1,4 @@
-// Data 역할
+// Data Model(정의서) 역할
 class PlaybackConfigModel {
   bool muted;
   bool autoplay;

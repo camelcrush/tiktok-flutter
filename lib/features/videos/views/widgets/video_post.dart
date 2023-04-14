@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiktokapp/common/widgets/video_config/video_config.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
@@ -125,6 +124,10 @@ class _VideoPostState extends State<VideoPost>
     //     _autoMute = videoConfig.value;
     //   });
     // });
+
+    context
+        .read<PlaybackConfigViewModel>()
+        .addListener(_onPlaybackConfigChanged);
   }
 
   @override
@@ -134,17 +137,32 @@ class _VideoPostState extends State<VideoPost>
     super.dispose();
   }
 
+  void _onPlaybackConfigChanged() {
+    // Listener로 인해 mounted를 체크해주어야 함
+    if (!mounted) return;
+    final muted = context.read<PlaybackConfigViewModel>().muted;
+    if (muted) {
+      _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(1);
+    }
+  }
+
   void _onVisibilityChanged(VisibilityInfo info) {
     // mounted : 모든 화면 위젯의 state 공통 속성
     // _videoPlayerController를 dispose시키기 때문에 다음 영상 재생할 때 에러가 남
     // mounted가 아니면 return null을 톨해 에러 해결
+    // Listener로 인해 mounted를 체크해주어야 함
     if (!mounted) return;
     // info.visibleFraction 전체화면에서 해당 위젯이 차지하는 비율
     // 영상이 전체화면이고 재생중이 아니라면 영상 재생
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.play();
+      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      if (autoplay) {
+        _videoPlayerController.play();
+      }
     }
     // Navigation 이동 시 영상 정지
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
@@ -248,13 +266,17 @@ class _VideoPostState extends State<VideoPost>
             top: Sizes.size40,
             right: Sizes.size20,
             child: IconButton(
-              icon: const FaIcon(
-                false
+              icon: FaIcon(
+                context.watch<PlaybackConfigViewModel>().muted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context
+                    .read<PlaybackConfigViewModel>()
+                    .setMuted(!context.read<PlaybackConfigViewModel>().muted);
+              },
             ),
           ),
           Positioned(
