@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tiktokapp/common/widgets/video_config/video_config.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktokapp/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktokapp/features/videos/views/widgets/vidoe_button.dart';
 import 'package:tiktokapp/generated/l10n.dart';
@@ -247,15 +248,13 @@ class _VideoPostState extends State<VideoPost>
             top: Sizes.size40,
             right: Sizes.size20,
             child: IconButton(
-              icon: FaIcon(
-                context.watch<VideoConfig>().isMuted
+              icon: const FaIcon(
+                false
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: () {
-                context.read<VideoConfig>().toggleIsMuted();
-              },
+              onPressed: () {},
             ),
           ),
           Positioned(
