@@ -44,6 +44,7 @@ class _VideoPostState extends State<VideoPost>
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
   bool _isPaused = false;
+  bool _autoMute = videoConfig.autoMute;
 
   // AnimationController 선언
   late AnimationController _animationController;
@@ -104,6 +105,13 @@ class _VideoPostState extends State<VideoPost>
     // _animationController.addListener(() {
     //   setState(() {});
     // });
+
+    // ChageNotifier Listener를 통한 State 관리 : discover 위젯 전체 rebuild
+    videoConfig.addListener(() {
+      setState(() {
+        _autoMute = videoConfig.autoMute;
+      });
+    });
   }
 
   @override
@@ -228,13 +236,12 @@ class _VideoPostState extends State<VideoPost>
             right: Sizes.size20,
             child: IconButton(
               icon: FaIcon(
-                // VideoConfig.of를 통해 context 및 state 접근
-                VideoConfigData.of(context).autoMute
+                _autoMute
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: VideoConfigData.of(context).toggleMuted,
+              onPressed: videoConfig.toggleAutoMute,
             ),
           ),
           Positioned(
