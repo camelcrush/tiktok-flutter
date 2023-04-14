@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tiktokapp/common/widgets/mode_config/mode_config.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/generated/l10n.dart';
 import 'package:tiktokapp/router.dart';
@@ -26,8 +27,26 @@ void main() async {
   runApp(const TikTokApp());
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends StatefulWidget {
   const TikTokApp({super.key});
+
+  @override
+  State<TikTokApp> createState() => _TikTokAppState();
+}
+
+class _TikTokAppState extends State<TikTokApp> {
+  String _mode = modeConfig.value;
+
+  @override
+  void initState() {
+    super.initState();
+
+    modeConfig.addListener(() {
+      setState(() {
+        _mode = modeConfig.value;
+      });
+    });
+  }
 
   // This widget is the root of your application.
   @override
@@ -53,7 +72,8 @@ class TikTokApp extends StatelessWidget {
       ],
       debugShowCheckedModeBanner: false,
       // Light/Dark Mode를 앱애 설정에 따라 설정
-      themeMode: ThemeMode.system,
+      // themeMode: ThemeMode.system,
+      themeMode: _mode == 'light' ? ThemeMode.light : ThemeMode.dark,
       // 전체 Theme 설정
       // 앱 개발 할 때 Material Design 2의 generator를 통해 설정을 해서 시작하는 것이 좋음
       // Size와 FontWeight를 미리 설정하여 TextTheme을 활용하여 TextStyle에 통일성을 줄 수 있음

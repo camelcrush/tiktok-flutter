@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktokapp/common/widgets/mode_config/mode_config.dart';
 import 'package:tiktokapp/common/widgets/video_config/video_config.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -54,6 +55,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
           //   ),
           // ),
 
+          ValueListenableBuilder(
+            valueListenable: modeConfig,
+            builder: (context, value, child) => SwitchListTile.adaptive(
+              value: value == 'dark' ? true : false,
+              onChanged: (value) {
+                modeConfig.value = value ? 'dark' : 'light';
+              },
+              title: const Text('App Mode'),
+              subtitle: const Text('Light/Dark Mode'),
+            ),
+          ),
           // ValueNotifier
           AnimatedBuilder(
             animation: videoConfig,
