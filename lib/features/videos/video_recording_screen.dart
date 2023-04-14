@@ -71,8 +71,6 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     // Camera Zoom Valute 설정
     _maxZoom = await _cameraController.getMaxZoomLevel();
     _minZoom = await _cameraController.getMinZoomLevel();
-    print(_maxZoom);
-    print(_minZoom);
     _currentZoom = _minZoom;
 
     setState(() {});

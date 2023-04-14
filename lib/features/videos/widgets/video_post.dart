@@ -53,8 +53,6 @@ class _VideoPostState extends State<VideoPost>
 
   bool _isSeeMore = false;
 
-  bool _isMuted = false;
-
   void _onVideoChanged() {
     // _videoPlayerController가 Initialized가 되면
     if (_videoPlayerController.value.isInitialized) {
@@ -176,17 +174,6 @@ class _VideoPostState extends State<VideoPost>
     _onTogglePause();
   }
 
-  void _onMuteTap() {
-    if (_isMuted) {
-      _videoPlayerController.setVolume(1.0);
-    } else {
-      _videoPlayerController.setVolume(0);
-    }
-    setState(() {
-      _isMuted = !_isMuted;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -242,12 +229,12 @@ class _VideoPostState extends State<VideoPost>
             child: IconButton(
               icon: FaIcon(
                 // VideoConfig.of를 통해 context 및 state 접근
-                VideoConfig.of(context).autoMute
+                VideoConfigData.of(context).autoMute
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: VideoConfigData.of(context).toggleMuted,
             ),
           ),
           Positioned(
@@ -304,15 +291,6 @@ class _VideoPostState extends State<VideoPost>
               right: 10,
               child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: _onMuteTap,
-                    child: VideoButton(
-                      icon: _isMuted
-                          ? FontAwesomeIcons.volumeXmark
-                          : FontAwesomeIcons.volumeHigh,
-                    ),
-                  ),
-                  Gaps.v24,
                   const CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.black,
