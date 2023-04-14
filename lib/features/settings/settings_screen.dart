@@ -44,11 +44,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // ChageNotifier + AnimatedBuilder를 통한 State 관리
           // AnimatedBuilder 안 위젯만 Rebuild하기 때문에 효율적임
+          // AnimatedBuilder(
+          //   animation: videoConfig,
+          //   builder: (context, child) => SwitchListTile.adaptive(
+          //     value: videoConfig.autoMute,
+          //     onChanged: (value) => videoConfig.toggleAutoMute(),
+          //     title: const Text("Auto Mute"),
+          //     subtitle: const Text("Video will be muted by default"),
+          //   ),
+          // ),
+
+          // ValueNotifier
           AnimatedBuilder(
             animation: videoConfig,
             builder: (context, child) => SwitchListTile.adaptive(
-              value: videoConfig.autoMute,
-              onChanged: (value) => videoConfig.toggleAutoMute(),
+              value: videoConfig.value,
+              onChanged: (value) {
+                videoConfig.value = !videoConfig.value;
+              },
               title: const Text("Auto Mute"),
               subtitle: const Text("Video will be muted by default"),
             ),

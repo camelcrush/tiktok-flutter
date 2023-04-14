@@ -1,17 +1,20 @@
 import 'package:flutter/widgets.dart';
 
-// ChangeNotifier : 다수의 상태관리 위젯
-// 5~10개 미만의 Screen이 있을 경우 State관리가 효율적
-class VideoConfig extends ChangeNotifier {
-  bool autoMute = false;
+// Property 값이 하나일 때 사용하는 State관리 위젯
+final videoConfig = ValueNotifier(false);
 
-  void toggleAutoMute() {
-    autoMute = !autoMute;
-    notifyListeners();
-  }
-}
+// // ChangeNotifier : 다수의 상태관리 위젯
+// // 5~10개 미만의 Screen이 있을 경우 State관리가 효율적
+// class VideoConfig extends ChangeNotifier {
+//   bool autoMute = false;
 
-final videoConfig = VideoConfig();
+//   void toggleAutoMute() {
+//     autoMute = !autoMute;
+//     notifyListeners();
+//   }
+// }
+
+// final videoConfig = VideoConfig();
 
 
 // //  InheritedWidget + StatfuleWidget을 통한 State 관리
