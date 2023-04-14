@@ -7,7 +7,7 @@ import 'package:tiktokapp/features/inbox/activity_screen.dart';
 import 'package:tiktokapp/features/inbox/chat_detail_screen.dart';
 import 'package:tiktokapp/features/inbox/chats_screen.dart';
 import 'package:tiktokapp/features/onboarding/interests_screen.dart';
-import 'package:tiktokapp/features/videos/video_recording_screen.dart';
+import 'package:tiktokapp/features/videos/views/video_recording_screen.dart';
 
 final router = GoRouter(
   initialLocation: "/inbox",

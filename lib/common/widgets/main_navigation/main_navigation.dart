@@ -8,8 +8,8 @@ import 'package:tiktokapp/features/inbox/inbox_screen.dart';
 import 'package:tiktokapp/common/widgets/main_navigation/widgets/post_video_button.dart';
 import 'package:tiktokapp/common/widgets/main_navigation/widgets/tab_nav.dart';
 import 'package:tiktokapp/features/users/user_profile_screen.dart';
-import 'package:tiktokapp/features/videos/video_recording_screen.dart';
-import 'package:tiktokapp/features/videos/videos_timeline_screen.dart';
+import 'package:tiktokapp/features/videos/views/video_recording_screen.dart';
+import 'package:tiktokapp/features/videos/views/videos_timeline_screen.dart';
 import 'package:tiktokapp/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
