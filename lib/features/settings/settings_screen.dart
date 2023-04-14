@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktokapp/common/widgets/mode_config/mode_config.dart';
 import 'package:tiktokapp/common/widgets/video_config/video_config.dart';
 
@@ -55,6 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           //   ),
           // ),
 
+          // Dark Mode ValueNotifier
           ValueListenableBuilder(
             valueListenable: modeConfig,
             builder: (context, value, child) => SwitchListTile.adaptive(
@@ -67,16 +69,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           // ValueNotifier
-          AnimatedBuilder(
-            animation: videoConfig,
-            builder: (context, child) => SwitchListTile.adaptive(
-              value: videoConfig.value,
-              onChanged: (value) {
-                videoConfig.value = !videoConfig.value;
-              },
-              title: const Text("Auto Mute"),
-              subtitle: const Text("Video will be muted by default"),
-            ),
+
+          // AutoMute ValueNotifier
+          // AnimatedBuilder(
+          //   animation: videoConfig,
+          //   builder: (context, child) => SwitchListTile.adaptive(
+          //     value: videoConfig.value,
+          //     onChanged: (value) {
+          //       videoConfig.value = !videoConfig.value;
+          //     },
+          //     title: const Text("Auto Mute"),
+          //     subtitle: const Text("Video will be muted by default"),
+          //   ),
+          // ),
+
+          // Provider를 통한 State관리
+          SwitchListTile.adaptive(
+            value: context.watch<VideoConfig>().isMuted,
+            onChanged: (value) => context.read<VideoConfig>().toggleIsMuted(),
+            title: const Text("Auto Mute"),
+            subtitle: const Text("Video will be muted by default"),
           ),
           SwitchListTile.adaptive(
             value: _notifications,

@@ -1,7 +1,24 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
-// Property 값이 하나일 때 사용하는 State관리 위젯
-final videoConfig = ValueNotifier(false);
+class VideoConfig extends ChangeNotifier {
+  bool isMuted = false;
+  bool isAutoPlay = false;
+
+  void toggleIsMuted() {
+    isMuted = !isMuted;
+    notifyListeners();
+  }
+
+  void toggleIsAutoPlay() {
+    isAutoPlay = !isAutoPlay;
+    notifyListeners();
+  }
+}
+
+
+
+// // Property 값이 하나일 때 사용하는 State관리 위젯
+// final videoConfig = ValueNotifier(false);
 
 // // ChangeNotifier : 다수의 상태관리 위젯
 // // 5~10개 미만의 Screen이 있을 경우 State관리가 효율적

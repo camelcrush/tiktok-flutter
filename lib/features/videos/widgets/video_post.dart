@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktokapp/common/widgets/video_config/video_config.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
@@ -48,7 +49,7 @@ class _VideoPostState extends State<VideoPost>
   // bool _autoMute = videoConfig.autoMute;
 
   // ValueNotifier
-  bool _autoMute = videoConfig.value;
+  // bool _autoMute = videoConfig.value;
 
   // AnimationController 선언
   late AnimationController _animationController;
@@ -117,12 +118,12 @@ class _VideoPostState extends State<VideoPost>
     //   });
     // });
 
-    // ValueNotifier
-    videoConfig.addListener(() {
-      setState(() {
-        _autoMute = videoConfig.value;
-      });
-    });
+    // // ValueNotifier
+    // videoConfig.addListener(() {
+    //   setState(() {
+    //     _autoMute = videoConfig.value;
+    //   });
+    // });
   }
 
   @override
@@ -247,13 +248,13 @@ class _VideoPostState extends State<VideoPost>
             right: Sizes.size20,
             child: IconButton(
               icon: FaIcon(
-                _autoMute
+                context.watch<VideoConfig>().isMuted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
               onPressed: () {
-                videoConfig.value = !videoConfig.value;
+                context.read<VideoConfig>().toggleIsMuted();
               },
             ),
           ),
