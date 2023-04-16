@@ -1,15 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktokapp/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktokapp/features/videos/views/widgets/vidoe_button.dart';
 import 'package:tiktokapp/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   // StatefulWidghet에서 property 받기
   final Function onVideoFinished;
 
@@ -22,7 +24,7 @@ class VideoPost extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
 // [ Mixins ]
@@ -32,7 +34,7 @@ class VideoPost extends StatefulWidget {
 // extends와 차이점은 extend를 하게 되면 확장한 그 클래스는 부모 클래스가 되지만 with는 부모의 인스턴스 관계가 된다.
 // 단순하게 mixin 내부의 프로퍼티를 갖고 오는 거라고 생각하면 쉽다.
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
 // Provides a single [Ticker] that is configured to only tick while the current tree is enabled, as defined by [TickerMode].
 // To create the [AnimationController] in a [State] that only uses a single [AnimationController], mix in this class, then pass vsync: this to the animation controller constructor.
@@ -41,8 +43,8 @@ class _VideoPostState extends State<VideoPost>
   late final VideoPlayerController _videoPlayerController;
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
-  late bool _isPaused = false;
-  late bool _isMuted = false;
+  late bool _isPaused = !ref.read(playbackConfigProvider).autoplay;
+  late bool _isMuted = ref.read(playbackConfigProvider).muted;
 
   // Provider Version
   // late bool _isPaused = !context.read<PlaybackConfigViewModel>().autoplay;
@@ -133,6 +135,8 @@ class _VideoPostState extends State<VideoPost>
     // context
     //     .read<PlaybackConfigViewModel>()
     //     .addListener(_onPlaybackConfigChanged);
+
+    _onPlaybackConfigChanged();
   }
 
   @override
@@ -145,7 +149,7 @@ class _VideoPostState extends State<VideoPost>
   void _onPlaybackConfigChanged() {
     // Listener로 인해 mounted를 체크해주어야 함
     if (!mounted) return;
-    const muted = false;
+    final muted = ref.read(playbackConfigProvider).muted;
     // Provider Version
     // final muted = context.read<PlaybackConfigViewModel>().muted;
     if (muted) {
@@ -166,8 +170,7 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      const autoplay = false;
-
+      final autoplay = ref.read(playbackConfigProvider).autoplay;
       // Provider  Version
       // final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
       if (autoplay) {

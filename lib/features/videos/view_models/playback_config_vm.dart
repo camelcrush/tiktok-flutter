@@ -26,6 +26,7 @@ class PlaybackConfigViewModel extends Notifier<PlaybackConfigModel> {
     );
   }
 
+  // View Data 초기값 셋팅
   @override
   PlaybackConfigModel build() {
     return PlaybackConfigModel(
