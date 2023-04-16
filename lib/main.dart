@@ -63,14 +63,14 @@ void main() async {
   // );
 }
 
-class TikTokApp extends StatefulWidget {
+class TikTokApp extends ConsumerStatefulWidget {
   const TikTokApp({super.key});
 
   @override
-  State<TikTokApp> createState() => _TikTokAppState();
+  TikTokAppState createState() => TikTokAppState();
 }
 
-class _TikTokAppState extends State<TikTokApp> {
+class TikTokAppState extends ConsumerState<TikTokApp> {
   String _mode = modeConfig.value;
 
   @override
@@ -90,7 +90,7 @@ class _TikTokAppState extends State<TikTokApp> {
     // 앱 Locale 변환하기
     // S.load(const Locale('ko'));
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       title: 'TikTok App',
       // Locale Flutter 자체 가지고 있는 텍스트 번역본 실행
       // cmd에서 flutter gen-l10n 실행
