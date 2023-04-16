@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,6 +8,7 @@ import 'package:tiktokapp/common/widgets/mode_config/mode_config.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/videos/repos/playback_config_repo.dart';
 import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktokapp/firebase_options.dart';
 import 'package:tiktokapp/generated/l10n.dart';
 import 'package:tiktokapp/router.dart';
 
@@ -14,6 +16,11 @@ void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
   // runApp 전에 State설정이 필요할 때 사용
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Firebase Init
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
 // SystemChrome을 통해 디바이스 기본방향으로 세로화면만을 설정
   await SystemChrome.setPreferredOrientations(

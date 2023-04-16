@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "754096441759",
+    "project_id": "tiktok-camel",
+    "storage_bucket": "tiktok-camel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754096441759:android:03764b9a328c0ea39e95aa",
+        "android_client_info": {
+          "package_name": "com.example.tiktokapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754096441759-ofvlhqehtjvcpg7bf6s6782o25hv5egm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxOOzK2vOWncRCgtBhUoHk-T_sqTkKYr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754096441759-ofvlhqehtjvcpg7bf6s6782o25hv5egm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "754096441759-e8ufoeqiffg5etb385gsmh832gaeuvde.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tiktokapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
