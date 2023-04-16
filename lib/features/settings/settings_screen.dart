@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktokapp/common/widgets/mode_config/mode_config.dart';
-import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -85,16 +83,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Provider를 통한 State관리
           SwitchListTile.adaptive(
-            value: context.watch<PlaybackConfigViewModel>().muted,
-            onChanged: (value) =>
-                context.read<PlaybackConfigViewModel>().setMuted(value),
+            value: false,
+            onChanged: (value) => {},
+            // Provider Version
+            // value: context.watch<PlaybackConfigViewModel>().muted,
+            // onChanged: (value) =>
+            //     context.read<PlaybackConfigViewModel>().setMuted(value),
             title: const Text("Mute Video"),
             subtitle: const Text("Video will be muted by default"),
           ),
           SwitchListTile.adaptive(
-            value: context.watch<PlaybackConfigViewModel>().autoplay,
-            onChanged: (value) =>
-                context.read<PlaybackConfigViewModel>().setAutoplay(value),
+            value: false,
+            onChanged: (value) => {},
+            // Provider Version
+            // value: context.watch<PlaybackConfigViewModel>().autoplay,
+            // onChanged: (value) =>
+            //     context.read<PlaybackConfigViewModel>().setAutoplay(value),
             title: const Text("Autoplay"),
             subtitle: const Text("Video will start playing automatically."),
           ),

@@ -1,10 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
-import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktokapp/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktokapp/features/videos/views/widgets/vidoe_button.dart';
 import 'package:tiktokapp/generated/l10n.dart';
@@ -41,11 +39,15 @@ class _VideoPostState extends State<VideoPost>
 
   // VideoPlayerContoller 선언
   late final VideoPlayerController _videoPlayerController;
-
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
-  late bool _isPaused = context.read<PlaybackConfigViewModel>().autoplay;
-  late bool _isMuted = context.read<PlaybackConfigViewModel>().muted;
+  late bool _isPaused = false;
+  late bool _isMuted = false;
+
+  // Provider Version
+  // late bool _isPaused = !context.read<PlaybackConfigViewModel>().autoplay;
+  // late bool _isMuted = context.read<PlaybackConfigViewModel>().muted;
+
   // ChageNotifier
   // bool _autoMute = videoConfig.autoMute;
 
@@ -127,9 +129,10 @@ class _VideoPostState extends State<VideoPost>
     //   });
     // });
 
-    context
-        .read<PlaybackConfigViewModel>()
-        .addListener(_onPlaybackConfigChanged);
+    // Provider Version
+    // context
+    //     .read<PlaybackConfigViewModel>()
+    //     .addListener(_onPlaybackConfigChanged);
   }
 
   @override
@@ -142,7 +145,9 @@ class _VideoPostState extends State<VideoPost>
   void _onPlaybackConfigChanged() {
     // Listener로 인해 mounted를 체크해주어야 함
     if (!mounted) return;
-    final muted = context.read<PlaybackConfigViewModel>().muted;
+    const muted = false;
+    // Provider Version
+    // final muted = context.read<PlaybackConfigViewModel>().muted;
     if (muted) {
       _videoPlayerController.setVolume(0);
     } else {
@@ -161,7 +166,10 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      const autoplay = false;
+
+      // Provider  Version
+      // final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
       if (autoplay) {
         _videoPlayerController.play();
       }
