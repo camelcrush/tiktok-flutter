@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/common/widgets/main_navigation/main_navigation.dart';
 import 'package:tiktokapp/features/authentication/login_screen.dart';
+import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
 import 'package:tiktokapp/features/inbox/activity_screen.dart';
 import 'package:tiktokapp/features/inbox/chat_detail_screen.dart';
@@ -14,7 +15,19 @@ import 'package:tiktokapp/features/videos/views/video_recording_screen.dart';
 final routerProvider = Provider(
   (ref) {
     return GoRouter(
-      initialLocation: "/inbox",
+      initialLocation: "/home",
+      redirect: (context, state) {
+        final isLoggedIn = ref.read(authRepo).isLoggedIn;
+        // 로그인이 안 되었다면 현재 위치를 SignUpScreen으로 redirect
+        if (!isLoggedIn) {
+          // state.subloc : The location of this sub-rout
+          if (state.subloc != SignUpScreen.routeURL &&
+              state.subloc != LoginScreen.routeURL) {
+            return SignUpScreen.routeURL;
+          }
+        }
+        return null;
+      },
       routes: [
         GoRoute(
           name: SignUpScreen.routeName,

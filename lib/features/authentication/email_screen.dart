@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktokapp/features/authentication/view_models/signup_view_model.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
 import 'package:tiktokapp/features/authentication/password_screen.dart';
 import '../../constants/gaps.dart';
@@ -10,7 +12,7 @@ class EmailScreenArgs {
   EmailScreenArgs({required this.username});
 }
 
-class EmailScreen extends StatefulWidget {
+class EmailScreen extends ConsumerStatefulWidget {
   final String username;
 
   const EmailScreen({
@@ -19,10 +21,10 @@ class EmailScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EmailScreen> createState() => _EmailScreenState();
+  ConsumerState<EmailScreen> createState() => _EmailScreenState();
 }
 
-class _EmailScreenState extends State<EmailScreen> {
+class _EmailScreenState extends ConsumerState<EmailScreen> {
   // TextEitingController : TextField() 컨트롤러 등록을 위한 변수 선언
   final TextEditingController _emailController = TextEditingController();
   String _email = "";
@@ -66,6 +68,8 @@ class _EmailScreenState extends State<EmailScreen> {
 // onSubmit
   void _onSubmit() {
     if (_email.isEmpty || _isEmailValid() != null) return;
+    // Provider를 이용해 notifier에 state값 추가하기
+    ref.read(signUpForm.notifier).state = {'email': _email};
     Navigator.push(
       context,
       MaterialPageRoute(
