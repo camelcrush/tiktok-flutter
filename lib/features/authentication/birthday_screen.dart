@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/view_models/signup_view_model.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
-import 'package:tiktokapp/features/onboarding/interests_screen.dart';
 
 class BirthdayScreen extends ConsumerStatefulWidget {
   const BirthdayScreen({Key? key}) : super(key: key);
@@ -38,8 +36,8 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
 
 // Stateful일 때는 context를 넘겨줄 필요 없음
   void _onNextTap() {
-    ref.read(signUpProvider.notifier).signUp();
-    context.goNamed(InterestsScreen.routeName);
+    ref.read(signUpProvider.notifier).signUp(context);
+    // context.goNamed(InterestsScreen.routeName);
 
     // Navigator.of(context).pushAndRemoveUntil(
     //     MaterialPageRoute(

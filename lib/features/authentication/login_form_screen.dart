@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/authentication/view_models/login_view_model.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
-import 'package:tiktokapp/features/onboarding/interests_screen.dart';
 
-class LoginFormScreen extends StatefulWidget {
+class LoginFormScreen extends ConsumerStatefulWidget {
   const LoginFormScreen({super.key});
 
   @override
-  State<LoginFormScreen> createState() => _LoginFormScreenState();
+  ConsumerState<LoginFormScreen> createState() => _LoginFormScreenState();
 }
 
-class _LoginFormScreenState extends State<LoginFormScreen> {
+class _LoginFormScreenState extends ConsumerState<LoginFormScreen> {
   // Global formKey : Form에 key값을 부여하여 어디서든지 접근가능하게 함
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -33,7 +33,14 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
         //       builder: (context) => const InterestsScreen(),
         //     ),
         //     (route) => false);
-        context.goNamed(InterestsScreen.routeName);
+
+        // Snack을 보여주기 위해 context를 전달해 주어야 함
+        ref.read(loginProvider.notifier).login(
+              formData['email']!,
+              formData['password']!,
+              context,
+            );
+        // context.goNamed(InterestsScreen.routeName);
       }
     }
   }
@@ -125,8 +132,8 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                 Gaps.v28,
                 GestureDetector(
                   onTap: _onSubmitTap,
-                  child: const FormButton(
-                    disabled: false,
+                  child: FormButton(
+                    disabled: ref.watch(loginProvider).isLoading,
                     formText: 'Log In',
                   ),
                 )
