@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/common/widgets/mode_config/mode_config.dart';
+import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -119,7 +121,11 @@ class SettingsScreen extends ConsumerWidget {
                     child: const Text("NO"),
                   ),
                   CupertinoDialogAction(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      // SignOut 후 직접 홈으로 라우터 처리
+                      ref.read(authRepo).signOut();
+                      context.go("/");
+                    },
                     isDestructiveAction: true,
                     child: const Text("Yes"),
                   )

@@ -19,7 +19,7 @@ class SignUpViewModel extends AsyncNotifier<void> {
     final form = ref.read(signUpForm);
     // AsyncValue.guard()는 try/catch 로직에 의거 데이터 작업 실시
     state = await AsyncValue.guard(
-      () async => await _authRepo.signUp(
+      () async => await _authRepo.emailSignUp(
         form['email'],
         form['password'],
       ),

@@ -14,6 +14,8 @@ import 'package:tiktokapp/features/videos/views/video_recording_screen.dart';
 // RiverPod Provider로 감싼 GoRouter : ref를 통해 어디서든지 접근할 수 있음
 final routerProvider = Provider(
   (ref) {
+    // Stream을 통해 signOut하는 방법
+    // ref.watch(authState);
     return GoRouter(
       initialLocation: "/home",
       redirect: (context, state) {
