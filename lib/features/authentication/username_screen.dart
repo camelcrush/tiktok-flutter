@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/email_screen.dart';
+import 'package:tiktokapp/features/authentication/view_models/signup_view_model.dart';
 import 'package:tiktokapp/features/authentication/widgets/form_button.dart';
 
-class UsernameScreen extends StatefulWidget {
+class UsernameScreen extends ConsumerStatefulWidget {
   const UsernameScreen({Key? key}) : super(key: key);
 
   @override
-  State<UsernameScreen> createState() => _UsernameScreenState();
+  ConsumerState<UsernameScreen> createState() => _UsernameScreenState();
 }
 
-class _UsernameScreenState extends State<UsernameScreen> {
+class _UsernameScreenState extends ConsumerState<UsernameScreen> {
   // TextEitingController : TextField() 컨트롤러 등록을 위한 변수 선언
   final TextEditingController _usernameController = TextEditingController();
   String _username = "";
@@ -38,6 +40,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
 // Stateful일 때는 context를 넘겨줄 필요 없음
   void _onNextTap() {
     if (_username.isEmpty) return;
+    ref.read(signUpForm.notifier).state = {"name": _username};
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => EmailScreen(username: _username),

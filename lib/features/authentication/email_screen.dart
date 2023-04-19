@@ -69,7 +69,8 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
   void _onSubmit() {
     if (_email.isEmpty || _isEmailValid() != null) return;
     // Provider를 이용해 notifier에 state값 추가하기
-    ref.read(signUpForm.notifier).state = {'email': _email};
+    final state = ref.read(signUpForm.notifier).state;
+    ref.read(signUpForm.notifier).state = {'email': _email, ...state};
     Navigator.push(
       context,
       MaterialPageRoute(

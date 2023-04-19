@@ -36,6 +36,11 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
 
 // Stateful일 때는 context를 넘겨줄 필요 없음
   void _onNextTap() {
+    final state = ref.read(signUpForm.notifier).state;
+    ref.read(signUpForm.notifier).state = {
+      "birthday": _birthdayController.text,
+      ...state
+    };
     ref.read(signUpProvider.notifier).signUp(context);
     // context.goNamed(InterestsScreen.routeName);
 

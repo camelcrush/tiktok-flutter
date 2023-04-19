@@ -16,7 +16,12 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     return UserProfileModel.empty();
   }
 
-  Future<void> createProfile(UserCredential credential) async {
+  Future<void> createProfile({
+    required UserCredential credential,
+    String email = "",
+    String name = "",
+    String birthday = "",
+  }) async {
     // SignupViewModel로부터 받은 credential 값을 통해 Profile 만들기
     if (credential.user == null) {
       throw Exception("Can't create Account");
@@ -24,11 +29,13 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     state = const AsyncValue.loading();
     final profile = UserProfileModel(
       uid: credential.user!.uid,
-      email: credential.user!.email ?? "anon@anon.com",
-      name: credential.user!.displayName ?? "Anon",
+      email: credential.user!.email ?? email,
+      name: credential.user!.displayName ?? name,
       bio: "undefined",
       link: "undefined",
+      birthday: birthday,
     );
+    print(profile);
     // UserRepository에서 Firestore profile 생성
     await _userRepo.createProfile(profile);
     // state값 업데이트

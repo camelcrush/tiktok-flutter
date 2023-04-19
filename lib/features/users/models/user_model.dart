@@ -4,6 +4,7 @@ class UserProfileModel {
   final String name;
   final String bio;
   final String link;
+  final String birthday;
 
   UserProfileModel({
     required this.uid,
@@ -11,6 +12,7 @@ class UserProfileModel {
     required this.name,
     required this.bio,
     required this.link,
+    required this.birthday,
   });
 
   // User SignUp일 경우 Profile을 새로 생성하려면 State값을 빈 값으로 우선 초기화하기 위함
@@ -19,7 +21,8 @@ class UserProfileModel {
         email = "",
         name = "",
         bio = "",
-        link = "";
+        link = "",
+        birthday = "";
 
 // Firestroe는 JSON을 받기 때문에
   Map<String, String> toJson() {
@@ -29,6 +32,7 @@ class UserProfileModel {
       "name": name,
       "bio": bio,
       "link": link,
+      "birthday": birthday,
     };
   }
 }
