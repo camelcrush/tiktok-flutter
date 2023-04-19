@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/login_screen.dart';
 import 'package:tiktokapp/features/authentication/username_screen.dart';
+import 'package:tiktokapp/features/authentication/view_models/social_auth_view_model.dart';
 import 'package:tiktokapp/features/authentication/widgets/auth_button.dart';
 import 'package:tiktokapp/generated/l10n.dart';
 import 'package:tiktokapp/utils.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends ConsumerWidget {
   static String routeName = "signUp";
   static String routeURL = "/";
   const SignUpScreen({Key? key}) : super(key: key);
@@ -74,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // OrientationBuilder : orientation을 통해 디바이스의 방향을 알려줌
     return OrientationBuilder(
       builder: (context, orientation) {
@@ -125,9 +127,14 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                     Gaps.v16,
-                    AuthButton(
-                      icon: const FaIcon(FontAwesomeIcons.apple),
-                      text: S.of(context).appleButton,
+                    GestureDetector(
+                      onTap: () => ref
+                          .read(socialAuthProvider.notifier)
+                          .githubSignIn(context),
+                      child: const AuthButton(
+                        icon: FaIcon(FontAwesomeIcons.github),
+                        text: "Continue with Github",
+                      ),
                     ),
                   ],
                   if (orientation == Orientation.landscape)
@@ -144,9 +151,14 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         Gaps.h16,
                         Expanded(
-                          child: AuthButton(
-                            icon: const FaIcon(FontAwesomeIcons.apple),
-                            text: S.of(context).appleButton,
+                          child: GestureDetector(
+                            onTap: () => ref
+                                .read(socialAuthProvider.notifier)
+                                .githubSignIn(context),
+                            child: const AuthButton(
+                              icon: FaIcon(FontAwesomeIcons.github),
+                              text: "Continue with Github",
+                            ),
                           ),
                         ),
                       ],
