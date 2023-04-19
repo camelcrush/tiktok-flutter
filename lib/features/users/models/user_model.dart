@@ -24,6 +24,15 @@ class UserProfileModel {
         link = "",
         birthday = "";
 
+  // Backend로부터 받은 Json데이터를 flutter Model로 전환하기 위한 constructor
+  UserProfileModel.fromJson(Map<String, dynamic> json)
+      : uid = json['uid'],
+        email = json['email'],
+        name = json['name'],
+        bio = json['bio'],
+        link = json['link'],
+        birthday = json['birthday'];
+
 // Firestroe는 JSON을 받기 때문에
   Map<String, String> toJson() {
     return {
