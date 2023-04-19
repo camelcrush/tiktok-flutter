@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktokapp/features/onboarding/interests_screen.dart';
+import 'package:tiktokapp/features/users/view_models/users_view_model.dart';
 import 'package:tiktokapp/utils.dart';
 
 class SignUpViewModel extends AsyncNotifier<void> {
@@ -21,13 +22,17 @@ class SignUpViewModel extends AsyncNotifier<void> {
     // Prefer always using this constructor with the const keyword.
     state = const AsyncValue.loading();
     final form = ref.read(signUpForm);
+    // UsersViewModel 불러오기
+    final users = ref.read(usersProvider.notifier);
     // AsyncValue.guard()는 try/catch 로직에 의거 데이터 작업 실시
-    state = await AsyncValue.guard(
-      () async => await _authRepo.emailSignUp(
+    state = await AsyncValue.guard(() async {
+      // 리턴받은 credential을 UsersViewModel의 createProfile Args로 전달
+      final userCredential = await _authRepo.emailSignUp(
         form['email'],
         form['password'],
-      ),
-    );
+      );
+      await users.createProfile(userCredential);
+    });
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error);
     } else {

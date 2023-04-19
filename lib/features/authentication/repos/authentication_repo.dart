@@ -13,8 +13,11 @@ class AuthenticationRepository {
   Stream<User?> authStateChange() => _firebaseAuth.authStateChanges();
 
   // Firebase에서 유저 생성하기
-  Future<void> emailSignUp(String email, String password) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
+  Future<UserCredential> emailSignUp(String email, String password) async {
+    // 로직이 성공하면 UserCredential를 리턴함
+    // 리턴받은 UserCredential을 통해 Profile 생성에 활용 가능
+    // SignupViewModel에서 credential 값을 받아 usersViewModel로 전달
+    return await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );

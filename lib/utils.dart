@@ -11,7 +11,9 @@ void showFirebaseErrorSnack(BuildContext context, Object? error) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       showCloseIcon: true,
-      content: Text((error as FirebaseException).message ?? "Error"),
+      content: Text(
+        (error as FirebaseException).message ?? "Error",
+      ),
     ),
   );
 }
