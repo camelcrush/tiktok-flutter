@@ -26,6 +26,11 @@ class UserRepository {
     // 주소에 file 업로드
     await fileRef.putFile(file);
   }
+
+  Future<void> updateUser(String uid, Map<String, dynamic> data) async {
+    // User Profile Update
+    await _db.collection("users").doc(uid).update(data);
+  }
 }
 
 final userRepo = Provider((ref) => UserRepository());

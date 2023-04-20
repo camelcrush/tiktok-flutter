@@ -48,11 +48,22 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
       bio: "undefined",
       link: "undefined",
       birthday: birthday,
+      hasAvatar: false,
     );
     // UserRepository에서 Firestore profile 생성
     await _userRepo.createProfile(profile);
     // state값 업데이트
     state = AsyncValue.data(profile);
+  }
+
+  // Avatar가 업로드 되면 User Profile Update가 필요함
+  Future<void> onAvatarUpload() async {
+    // state.value : UserViewModel이 현재 expose하고 있는 값 접근
+    if (state.value == null) return;
+    // state값 변경
+    state = AsyncValue.data(state.value!.copyWith(hasAvatar: true));
+    // Firestore User Profile 변경
+    await _userRepo.updateUser(state.value!.uid, {"hasAvatar": true});
   }
 }
 

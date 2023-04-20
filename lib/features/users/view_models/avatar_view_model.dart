@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktokapp/features/users/repos/user_repo.dart';
+import 'package:tiktokapp/features/users/view_models/users_view_model.dart';
 
 class AvatarViewModel extends AsyncNotifier<void> {
   late final UserRepository _userRepo;
@@ -18,7 +19,16 @@ class AvatarViewModel extends AsyncNotifier<void> {
     state = const AsyncValue.loading();
     final fileName = ref.read(authRepo).user!.uid;
     state = await AsyncValue.guard(
-      () async => await _userRepo.uploadAvatar(file, fileName),
+      () async {
+        // fireStorage에 file 업로드
+        await _userRepo.uploadAvatar(file, fileName);
+        // userViewModel state값 변경 및 firestore에 유저 프로필 업데이트
+        await ref.read(usersProvider.notifier).onAvatarUpload();
+      },
     );
   }
 }
+
+final avatarProvider = AsyncNotifierProvider<AvatarViewModel, void>(
+  () => AvatarViewModel(),
+);
