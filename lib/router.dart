@@ -21,8 +21,6 @@ final routerProvider = Provider(
       redirect: (context, state) {
         final user = ref.read(authRepo).user;
         final isLoggedIn = ref.read(authRepo).isLoggedIn;
-        print(user);
-        print(isLoggedIn);
         // 로그인이 안 되었다면 현재 위치를 SignUpScreen으로 redirect
         if (!isLoggedIn) {
           // state.subloc : The location of this sub-rout

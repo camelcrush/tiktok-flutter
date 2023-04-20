@@ -6,10 +6,12 @@ import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart
 import 'package:tiktokapp/features/users/models/user_model.dart';
 import 'package:tiktokapp/features/users/repos/user_repo.dart';
 
+// AsyncNotifier<expose할 데이터 타입 정의>
 class UsersViewModel extends AsyncNotifier<UserProfileModel> {
   late final UserRepository _userRepo;
   late final AuthenticationRepository _authRepo;
 
+  // Expose할 Data Init
   @override
   FutureOr<UserProfileModel> build() async {
     _userRepo = ref.read(userRepo);

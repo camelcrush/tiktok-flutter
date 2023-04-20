@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktokapp/features/users/models/user_model.dart';
 
 class UserRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<void> createProfile(UserProfileModel profile) async {
     // users collection을 생성하여 profile.uid값으로 document를 만들고 set(data)를 필드로 저장
@@ -14,6 +18,13 @@ class UserRepository {
   Future<Map<String, dynamic>?> findProfile(String uid) async {
     final doc = await _db.collection("users").doc(uid).get();
     return doc.data();
+  }
+
+  Future<void> uploadAvatar(File file, String fileName) async {
+    // Firestorage reference 만들기 : 폴더(주소) 만들기
+    final fileRef = _storage.ref().child("avatars/$fileName");
+    // 주소에 file 업로드
+    await fileRef.putFile(file);
   }
 }
 
