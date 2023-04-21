@@ -74,8 +74,8 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     state = const AsyncValue.loading();
     final profile = state.value!.copyWith(
       name: data['name']!,
-      link: data['link']!,
-      bio: data['bio']!,
+      link: data['link'] ?? '',
+      bio: data['bio'] ?? '',
     );
     state = await AsyncValue.guard(() async {
       await _userRepo.updateUser(profile.uid, {
