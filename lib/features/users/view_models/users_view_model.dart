@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktokapp/features/users/models/user_model.dart';
 import 'package:tiktokapp/features/users/repos/user_repo.dart';
+import 'package:tiktokapp/utils.dart';
 
 // AsyncNotifier<expose할 데이터 타입 정의>
 class UsersViewModel extends AsyncNotifier<UserProfileModel> {
@@ -64,6 +67,29 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     state = AsyncValue.data(state.value!.copyWith(hasAvatar: true));
     // Firestore User Profile 변경
     await _userRepo.updateUser(state.value!.uid, {"hasAvatar": true});
+  }
+
+  Future<void> updateProfile(
+      Map<String, String> data, BuildContext context) async {
+    state = const AsyncValue.loading();
+    final profile = state.value!.copyWith(
+      name: data['name']!,
+      link: data['link']!,
+      bio: data['bio']!,
+    );
+    state = await AsyncValue.guard(() async {
+      await _userRepo.updateUser(profile.uid, {
+        'name': profile.name,
+        'link': profile.link,
+        'bio': profile.bio,
+      });
+      return profile;
+    });
+    if (state.hasError) {
+      showFirebaseErrorSnack(context, state.error);
+    } else {
+      context.pop();
+    }
   }
 }
 
