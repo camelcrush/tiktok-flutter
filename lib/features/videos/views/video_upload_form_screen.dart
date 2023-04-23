@@ -70,6 +70,8 @@ class _VideoUploadFormScreenState extends ConsumerState<VideoUploadFormScreen> {
                 children: [
                   Gaps.v28,
                   TextFormField(
+                    autocorrect: false,
+                    maxLength: 21,
                     decoration: InputDecoration(
                       hintText: 'Title',
                       label: const Text('Title'),
@@ -98,6 +100,9 @@ class _VideoUploadFormScreenState extends ConsumerState<VideoUploadFormScreen> {
                   ),
                   Gaps.v28,
                   TextFormField(
+                    autocorrect: false,
+                    maxLength: 100,
+                    maxLines: 5,
                     decoration: InputDecoration(
                       hintText: 'Description',
                       label: const Text('Description'),
