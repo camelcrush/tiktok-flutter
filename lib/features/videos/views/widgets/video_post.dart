@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/videos/models/video_model.dart';
 import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktokapp/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktokapp/features/videos/views/widgets/vidoe_button.dart';
@@ -14,11 +15,13 @@ import 'package:visibility_detector/visibility_detector.dart';
 class VideoPost extends ConsumerStatefulWidget {
   // StatefulWidghet에서 property 받기
   final Function onVideoFinished;
+  final VideoModel videoData;
 
   final int index;
 
   const VideoPost({
     Key? key,
+    required this.videoData,
     required this.onVideoFinished,
     required this.index,
   }) : super(key: key);
@@ -58,9 +61,6 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   // AnimationController 선언
   late AnimationController _animationController;
-
-  final String _inputCaption =
-      "It's too long so please click 'show more' button to see detail.";
 
   bool _isSeeMore = false;
 
@@ -245,8 +245,9 @@ class VideoPostState extends ConsumerState<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(
-                    color: Colors.black,
+                : Image.network(
+                    widget.videoData.thumbnailUrl,
+                    fit: BoxFit.cover,
                   ),
           ),
           Positioned.fill(
@@ -303,9 +304,9 @@ class VideoPostState extends ConsumerState<VideoPost>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '@Camel',
-                  style: TextStyle(
+                Text(
+                  "@${widget.videoData.creator}",
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: Sizes.size20,
                     fontWeight: FontWeight.bold,
@@ -318,8 +319,8 @@ class VideoPostState extends ConsumerState<VideoPost>
                       width: _isSeeMore ? 300 : 200,
                       child: Text(
                         _isSeeMore
-                            ? _inputCaption
-                            : _checkLongCaption(_inputCaption),
+                            ? widget.videoData.description
+                            : _checkLongCaption(widget.videoData.description),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: Sizes.size16,
@@ -351,25 +352,26 @@ class VideoPostState extends ConsumerState<VideoPost>
               right: 10,
               child: Column(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                     foregroundImage: NetworkImage(
-                        "https://lh3.googleusercontent.com/a/AGNmyxYol5lNtQShTuXHxFwtUaHFG7SJ7NgONKeSCEz9jg=s96-c-rg-br100"),
-                    child: Text("Camel"),
+                        "https://firebasestorage.googleapis.com/v0/b/tiktok-camel.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media&token=0eab2817-2e90-4c5c-9585-e213fe3b15fe"),
+                    child: Text(widget.videoData.creator),
                   ),
                   Gaps.v24,
                   VideoButton(
                     icon: FontAwesomeIcons.solidHeart,
-                    text: S.of(context).likeCount(88888),
+                    text: S.of(context).likeCount(widget.videoData.likes),
                   ),
                   Gaps.v24,
                   GestureDetector(
                     onTap: _onCommentsTap,
                     child: VideoButton(
                       icon: FontAwesomeIcons.solidComment,
-                      text: S.of(context).commentCount(5555),
+                      text:
+                          S.of(context).commentCount(widget.videoData.comments),
                     ),
                   ),
                   Gaps.v24,

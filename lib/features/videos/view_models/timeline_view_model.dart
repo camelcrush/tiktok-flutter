@@ -2,25 +2,23 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktokapp/features/videos/models/video_model.dart';
+import 'package:tiktokapp/features/videos/repos/videos_repo.dart';
 
 class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
-  // Fake API Data
+  late VideosRepository _repository;
   List<VideoModel> _list = [];
-
-  Future<void> uploadVideo() async {
-    // State 불러오기
-    state = const AsyncValue.loading();
-    // upload 영역
-    await Future.delayed(const Duration(seconds: 2));
-    _list = [..._list];
-    // State 없데이트를 통해 Rebuild
-    state = AsyncValue.data(_list);
-  }
 
   // API로 데이터 불러오는 영역
   @override
   FutureOr<List<VideoModel>> build() async {
-    await Future.delayed(const Duration(seconds: 2));
+    _repository = ref.read(videosRepo);
+    final result = await _repository.fetchVideos();
+    final newList = result.docs.map(
+      (doc) => VideoModel.fromJson(
+        doc.data(),
+      ),
+    );
+    _list = newList.toList();
     return _list;
   }
 }
