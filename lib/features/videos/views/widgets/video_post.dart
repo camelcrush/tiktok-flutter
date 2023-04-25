@@ -6,6 +6,7 @@ import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/videos/models/video_model.dart';
 import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktokapp/features/videos/view_models/video_post_view_model.dart';
 import 'package:tiktokapp/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktokapp/features/videos/views/widgets/vidoe_button.dart';
 import 'package:tiktokapp/generated/l10n.dart';
@@ -233,6 +234,13 @@ class VideoPostState extends ConsumerState<VideoPost>
     _onTogglePause();
   }
 
+  void _onLikeTap() {
+    // Notifier에 Args를 넘겨서 state를 초기화 하는 방법
+    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
+    // 아래 방법으로 대체해도 됨
+    // ref.read(videoPostProvider.notifier).likeVideo(widget.videoData.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -361,9 +369,12 @@ class VideoPostState extends ConsumerState<VideoPost>
                     child: Text(widget.videoData.creator),
                   ),
                   Gaps.v24,
-                  VideoButton(
-                    icon: FontAwesomeIcons.solidHeart,
-                    text: S.of(context).likeCount(widget.videoData.likes),
+                  GestureDetector(
+                    onTap: _onLikeTap,
+                    child: VideoButton(
+                      icon: FontAwesomeIcons.solidHeart,
+                      text: S.of(context).likeCount(widget.videoData.likes),
+                    ),
                   ),
                   Gaps.v24,
                   GestureDetector(
