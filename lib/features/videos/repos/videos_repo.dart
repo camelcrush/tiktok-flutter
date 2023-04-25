@@ -37,10 +37,31 @@ class VideosRepository {
   }
 
   Future<void> likeVideo(String videoId, String userId) async {
-    await _db.collection("likes").add({
-      "videoId": videoId,
-      "userId": userId,
-    });
+    // 고유 id를 설정하여 경제적으로 db query를 실행함
+    final query = _db.collection("likes").doc("${videoId}000$userId");
+    final like = await query.get();
+    if (!like.exists) {
+      await query.set(
+        {
+          "createdAt": DateTime.now(),
+        },
+      );
+    }
+
+    // 아래 방법은 firebase에서 너무 많은 비용을 초래함
+    // final like= await _db
+    //     .collection("likes")
+    //     .where("videoId", isEqualTo: videoId)
+    //     .where("userId", isEqualTo: userId)
+    //     .get();
+    // if (like.docs.isEmpty) {
+    //   await _db.collection("likes").add({
+    //     "videoId": videoId,
+    //     "userId": userId,
+    //   });
+    // } else {
+    //   //delete likes
+    // }
   }
 }
 
