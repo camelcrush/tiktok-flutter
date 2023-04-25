@@ -46,6 +46,8 @@ class VideosRepository {
           "createdAt": DateTime.now(),
         },
       );
+    } else {
+      await query.delete();
     }
 
     // 아래 방법은 firebase에서 너무 많은 비용을 초래함
