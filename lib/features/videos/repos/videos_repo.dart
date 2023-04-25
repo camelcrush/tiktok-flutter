@@ -21,11 +21,19 @@ class VideosRepository {
     await _db.collection("videos").add(data.toJson());
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> fetchVideos() async {
-    return _db
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchVideos(
+      {int? lastItemCreatedAt}) async {
+    final query = _db
         .collection("videos")
         .orderBy("createdAt", descending: true)
-        .get();
+        .limit(2);
+    if (lastItemCreatedAt == null) {
+      return query.get();
+    } else {
+      // Pagenation for firestore
+      // createdAt 기준에 따라 pagenation
+      return query.startAfter([lastItemCreatedAt]).get();
+    }
   }
 }
 

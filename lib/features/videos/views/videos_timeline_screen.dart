@@ -11,7 +11,7 @@ class VideoTimelineScreen extends ConsumerStatefulWidget {
 }
 
 class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
-  int _itemCount = 4;
+  int _itemCount = 0;
 
   final PageController _pageController = PageController();
 
@@ -26,7 +26,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
       curve: _scrollCurve,
     );
     if (page == _itemCount - 1) {
-      _itemCount = _itemCount + 4;
+      ref.watch(timelineProvider.notifier).fetchNextPage();
     }
     setState(() {});
   }
@@ -67,26 +67,30 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
               style: const TextStyle(color: Colors.white),
             ),
           ),
-          data: (videos) => RefreshIndicator(
+          data: (videos) {
+            // itemCount = data length
+            _itemCount = videos.length;
             // ListView와 같이 builder를 통해 preloader 기능을 이용
-            onRefresh: _onRefresh,
-            color: Theme.of(context).primaryColor,
-            displacement: 50,
-            edgeOffset: 20,
-            child: PageView.builder(
-              controller: _pageController,
-              onPageChanged: _onPageChanged,
-              itemCount: videos.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                final videoData = videos[index];
-                return VideoPost(
-                    onVideoFinished: _onVideoFinished,
-                    index: index,
-                    videoData: videoData);
-              },
-            ),
-          ),
+            return RefreshIndicator(
+              onRefresh: _onRefresh,
+              color: Theme.of(context).primaryColor,
+              displacement: 50,
+              edgeOffset: 20,
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: _onPageChanged,
+                itemCount: videos.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  final videoData = videos[index];
+                  return VideoPost(
+                      onVideoFinished: _onVideoFinished,
+                      index: index,
+                      videoData: videoData);
+                },
+              ),
+            );
+          },
         );
   }
 }
