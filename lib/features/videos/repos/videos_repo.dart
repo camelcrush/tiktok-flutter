@@ -36,7 +36,7 @@ class VideosRepository {
     }
   }
 
-  Future<void> likeVideo(String videoId, String userId) async {
+  Future<void> toggleLike(String videoId, String userId) async {
     // 고유 id를 설정하여 경제적으로 db query를 실행함
     final query = _db.collection("likes").doc("${videoId}000$userId");
     final like = await query.get();
@@ -64,6 +64,12 @@ class VideosRepository {
     // } else {
     //   //delete likes
     // }
+  }
+
+  Future<bool> isLiked(String videoId, String userId) async {
+    final like =
+        await _db.collection("likes").doc("${videoId}000$userId").get();
+    return like.exists;
   }
 }
 
