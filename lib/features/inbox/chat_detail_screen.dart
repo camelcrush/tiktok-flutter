@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/inbox/view_models/message_view_model.dart';
 import 'package:tiktokapp/utils.dart';
 
-class ChatDetailScreen extends StatefulWidget {
+class ChatDetailScreen extends ConsumerStatefulWidget {
   static const String routeName = "chatDetail";
   static const String routeURL = ":chatId";
 
@@ -16,18 +18,27 @@ class ChatDetailScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ChatDetailScreen> createState() => _ChatDetailScreenState();
+  ConsumerState<ChatDetailScreen> createState() => _ChatDetailScreenState();
 }
 
-class _ChatDetailScreenState extends State<ChatDetailScreen> {
+class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
+  final TextEditingController _editingController = TextEditingController();
+
   void _onDismissKeyboard() {
     FocusScope.of(context).unfocus();
+  }
+
+  void _onSendPress() {
+    final text = _editingController.text;
+    if (text == "") return;
+    ref.read(messagesProvider.notifier).sendMessage(text);
+    _editingController.text = "";
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
-
+    final isLoading = ref.read(messagesProvider).isLoading;
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
@@ -146,6 +157,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       child: SizedBox(
                         height: Sizes.size44,
                         child: TextField(
+                          controller: _editingController,
                           expands: true,
                           maxLines: null,
                           minLines: null,
@@ -182,18 +194,23 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                     ),
                     Gaps.h14,
-                    Container(
-                      padding: const EdgeInsets.all(Sizes.size10),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isDark
-                            ? Colors.grey.shade800
-                            : Colors.grey.shade100,
-                      ),
-                      child: const Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.paperPlane,
-                          size: Sizes.size20,
+                    GestureDetector(
+                      onTap: isLoading ? null : _onSendPress,
+                      child: Container(
+                        padding: const EdgeInsets.all(Sizes.size10),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isDark
+                              ? Colors.grey.shade800
+                              : Colors.grey.shade100,
+                        ),
+                        child: Center(
+                          child: FaIcon(
+                            isLoading
+                                ? FontAwesomeIcons.hourglass
+                                : FontAwesomeIcons.paperPlane,
+                            size: Sizes.size20,
+                          ),
                         ),
                       ),
                     )
