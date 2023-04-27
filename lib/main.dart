@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktokapp/common/widgets/mode_config/mode_config.dart';
 import 'package:tiktokapp/constants/size.dart';
+import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart';
+import 'package:tiktokapp/features/notifications/notifications_provider.dart';
 import 'package:tiktokapp/features/videos/repos/playback_config_repo.dart';
 import 'package:tiktokapp/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktokapp/firebase_options.dart';
@@ -89,6 +91,11 @@ class TikTokAppState extends ConsumerState<TikTokApp> {
   Widget build(BuildContext context) {
     // 앱 Locale 변환하기
     // S.load(const Locale('ko'));
+    // 앱 실행 시 notification Provider listen
+    final isLoggedIn = ref.watch(authRepo).isLoggedIn;
+    if (isLoggedIn) {
+      ref.watch(notificationsProvider);
+    }
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvider),
       title: 'TikTok App',

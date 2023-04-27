@@ -35,7 +35,7 @@ class UserProfileModel {
         bio = json['bio'],
         link = json['link'],
         birthday = json['birthday'],
-        hasAvatar = json['hasAvatar'];
+        hasAvatar = json['hasAvatar'] ?? false;
 
 // Firestroe는 JSON을 받기 때문에
   Map<String, String> toJson() {
