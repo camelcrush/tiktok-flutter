@@ -90,6 +90,24 @@ export const onLikedCreated = functions.firestore
         videoId: videoId,
         ...videoData,
       });
+    const video = (await db.collection("videos").doc(videoId).get()).data();
+    if (video) {
+      const creatorUid = video.creatorUid;
+      const user = (await db.collection("users").doc(creatorUid).get()).data();
+      if (user) {
+        const token = user.token;
+        await admin.messaging().send({
+          token: token,
+          data: {
+            screen: "123",
+          },
+          notification: {
+            title: "Someone liked your video",
+            body: "Likes + 1 ! Congrats! 💖",
+          },
+        });
+      }
+    }
   });
 
 export const onLikedRemoved = functions.firestore
