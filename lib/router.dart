@@ -8,6 +8,7 @@ import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
 import 'package:tiktokapp/features/inbox/activity_screen.dart';
 import 'package:tiktokapp/features/inbox/chat_detail_screen.dart';
 import 'package:tiktokapp/features/inbox/chats_screen.dart';
+import 'package:tiktokapp/features/notifications/notifications_provider.dart';
 import 'package:tiktokapp/features/onboarding/interests_screen.dart';
 import 'package:tiktokapp/features/videos/views/video_recording_screen.dart';
 
@@ -19,7 +20,6 @@ final routerProvider = Provider(
     return GoRouter(
       initialLocation: "/home",
       redirect: (context, state) {
-        final user = ref.read(authRepo).user;
         final isLoggedIn = ref.read(authRepo).isLoggedIn;
         // 로그인이 안 되었다면 현재 위치를 SignUpScreen으로 redirect
         if (!isLoggedIn) {
@@ -32,68 +32,79 @@ final routerProvider = Provider(
         return null;
       },
       routes: [
-        GoRoute(
-          name: SignUpScreen.routeName,
-          path: SignUpScreen.routeURL,
-          builder: (context, state) => const SignUpScreen(),
-        ),
-        GoRoute(
-          name: LoginScreen.routeName,
-          path: LoginScreen.routeURL,
-          builder: (context, state) => const LoginScreen(),
-        ),
-        GoRoute(
-          name: InterestsScreen.routeName,
-          path: InterestsScreen.routeURL,
-          builder: (context, state) => const InterestsScreen(),
-        ),
-        GoRoute(
-          name: MainNavigationScreen.routeName,
-          path: "/:tab(home|discover|inbox|profile)",
-          builder: (context, state) {
-            final tab = state.params["tab"]!;
-            return MainNavigationScreen(tab: tab);
-          },
-        ),
-        GoRoute(
-          path: ActivityScreen.routeURL,
-          name: ActivityScreen.routeName,
-          builder: (context, state) => const ActivityScreen(),
-        ),
-        GoRoute(
-          path: ChatsScreen.routeURL,
-          name: ChatsScreen.routeName,
-          builder: (context, state) => const ChatsScreen(),
-          routes: [
-            GoRoute(
-              path: ChatDetailScreen.routeURL,
-              name: ChatDetailScreen.routeName,
-              builder: (context, state) {
-                final chatId = state.params['chatId']!;
-                return ChatDetailScreen(chatId: chatId);
-              },
-            )
-          ],
-        ),
-        GoRoute(
-          path: VideoRecordingScreen.routeURL,
-          name: VideoRecordingScreen.routeName,
-          pageBuilder: (context, state) => CustomTransitionPage(
-            transitionDuration: const Duration(milliseconds: 200),
-            child: const VideoRecordingScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              final position = Tween(
-                begin: const Offset(0, 1),
-                end: Offset.zero,
-              ).animate(animation);
-              return SlideTransition(
-                position: position,
-                child: child,
-              );
+        // ShellRoute를 통해 Router를 불러오기 전에 전처리 가능
+        ShellRoute(
+            builder: (context, state, child) {
+              final isLoggedIn = ref.watch(authRepo).isLoggedIn;
+              if (isLoggedIn) {
+                ref.read(notificationsProvider(context));
+              }
+              return child;
             },
-          ),
-        )
+            routes: [
+              GoRoute(
+                name: SignUpScreen.routeName,
+                path: SignUpScreen.routeURL,
+                builder: (context, state) => const SignUpScreen(),
+              ),
+              GoRoute(
+                name: LoginScreen.routeName,
+                path: LoginScreen.routeURL,
+                builder: (context, state) => const LoginScreen(),
+              ),
+              GoRoute(
+                name: InterestsScreen.routeName,
+                path: InterestsScreen.routeURL,
+                builder: (context, state) => const InterestsScreen(),
+              ),
+              GoRoute(
+                name: MainNavigationScreen.routeName,
+                path: "/:tab(home|discover|inbox|profile)",
+                builder: (context, state) {
+                  final tab = state.params["tab"]!;
+                  return MainNavigationScreen(tab: tab);
+                },
+              ),
+              GoRoute(
+                path: ActivityScreen.routeURL,
+                name: ActivityScreen.routeName,
+                builder: (context, state) => const ActivityScreen(),
+              ),
+              GoRoute(
+                path: ChatsScreen.routeURL,
+                name: ChatsScreen.routeName,
+                builder: (context, state) => const ChatsScreen(),
+                routes: [
+                  GoRoute(
+                    path: ChatDetailScreen.routeURL,
+                    name: ChatDetailScreen.routeName,
+                    builder: (context, state) {
+                      final chatId = state.params['chatId']!;
+                      return ChatDetailScreen(chatId: chatId);
+                    },
+                  )
+                ],
+              ),
+              GoRoute(
+                path: VideoRecordingScreen.routeURL,
+                name: VideoRecordingScreen.routeName,
+                pageBuilder: (context, state) => CustomTransitionPage(
+                  transitionDuration: const Duration(milliseconds: 200),
+                  child: const VideoRecordingScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    final position = Tween(
+                      begin: const Offset(0, 1),
+                      end: Offset.zero,
+                    ).animate(animation);
+                    return SlideTransition(
+                      position: position,
+                      child: child,
+                    );
+                  },
+                ),
+              )
+            ])
       ],
     );
   },
