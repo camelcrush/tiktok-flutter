@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,15 +15,30 @@ import 'package:tiktokapp/firebase_options.dart';
 import 'package:tiktokapp/generated/l10n.dart';
 import 'package:tiktokapp/router.dart';
 
+// background Message Handler 추가..
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  // Firebase Init
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  print("Handling a background message: ${message.messageId}");
+  print(message.data['screen']);
+}
+
 void main() async {
   // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
   // runApp 전에 State설정이 필요할 때 사용
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Firebase Init
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
 // SystemChrome을 통해 디바이스 기본방향으로 세로화면만을 설정
   await SystemChrome.setPreferredOrientations(
