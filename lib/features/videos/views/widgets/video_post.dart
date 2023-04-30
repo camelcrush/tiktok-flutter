@@ -79,8 +79,10 @@ class VideoPostState extends ConsumerState<VideoPost>
   }
 
   void _initVideoPlayer() async {
+    // _videoPlayerController =
+    //     VideoPlayerController.asset('assets/videos/video.MOV');
     _videoPlayerController =
-        VideoPlayerController.asset('assets/videos/video.MOV');
+        VideoPlayerController.network(widget.videoData.fileUrl);
     // VideoPlayerContoller를 반드시 Init하고 Play()해주어야 함, 준비시간 필요
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
