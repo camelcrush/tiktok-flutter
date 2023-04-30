@@ -28,7 +28,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-  // runApp 시키기 전에 Widget과 Flutter egineed을 binding시키기 위함
+  // 플랫폼(and, ios)과 flutter는 아에 다른 환경이다.
+  // flutter의 코드를 MethodChannel을 통해 통신을 하기 위해서 위젯들의 안정성을 보장할 필요가 있다.
+  // 따라서 정적 바인딩을 한다.
+  // 파이어 베이스 쓰기 전에 WidgetsFlutterBinding.ensureInitialized(); 꼭 쓰자
+  // runApp 시키기 전에 Widget과 Flutter egine을 binding시키기 위함
+  // main 메소드에서 서버나 SharedPreferences 등 비동기로 데이터를 다룬 다음 runApp을 실행
   // runApp 전에 State설정이 필요할 때 사용
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -57,7 +62,9 @@ void main() async {
   final repository = PlaybackConfigRepository(preference);
 
   runApp(
+    // All Flutter applications using Riverpod must contain a [ProviderScope] at the root of their widget tree.
     ProviderScope(
+      // repository를 전달하기 위해 override
       overrides: [
         playbackConfigProvider
             .overrideWith(() => PlaybackConfigViewModel(repository))
