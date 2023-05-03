@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/constants/size.dart';
 import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart';
@@ -34,6 +36,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     if (text == "") return;
     ref.read(messagesProvider.notifier).sendMessage(text);
     _editingController.text = "";
+  }
+
+  void _deleteMessage(String messageId) {
+    ref.read(messagesProvider.notifier).deleteMessage(messageId, widget.chatId);
   }
 
   @override
@@ -115,36 +121,76 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                         final message = data[index];
                         final isMine =
                             message.userId == ref.watch(authRepo).user!.uid;
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: isMine
-                              ? MainAxisAlignment.end
-                              : MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(Sizes.size14),
-                              decoration: BoxDecoration(
-                                color: isMine
-                                    ? Colors.blue
-                                    : Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: const Radius.circular(Sizes.size20),
-                                  topRight: const Radius.circular(Sizes.size20),
-                                  bottomLeft: Radius.circular(
-                                      isMine ? Sizes.size20 : Sizes.size5),
-                                  bottomRight: Radius.circular(
-                                      !isMine ? Sizes.size20 : Sizes.size5),
-                                ),
+                        return GestureDetector(
+                          onLongPress: () {
+                            showCupertinoDialog(
+                              context: context,
+                              builder: (context) => CupertinoAlertDialog(
+                                title:
+                                    const Text("Sure to delete this message?"),
+                                content: const Text("Confirm"),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    onPressed: () => context.pop(),
+                                    isDefaultAction: true,
+                                    child: const Text("NO"),
+                                  ),
+                                  CupertinoDialogAction(
+                                    isDefaultAction: true,
+                                    isDestructiveAction: true,
+                                    onPressed: () async {
+                                      if (isMine &&
+                                          message.text != '[deleted message]') {
+                                        await ref
+                                            .read(messagesProvider.notifier)
+                                            .deleteMessage(message.id,
+                                                "SlBnqcYz38wcQYEdMz5A");
+                                        if (mounted) {
+                                          context.pop();
+                                        }
+                                      }
+                                    },
+                                    child: const Text("Yes"),
+                                  )
+                                ],
                               ),
-                              child: Text(
-                                message.text,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: Sizes.size16,
+                            );
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: isMine
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(Sizes.size14),
+                                decoration: BoxDecoration(
+                                  color: message.text == '[deleted message]'
+                                      ? Colors.grey.shade400
+                                      : isMine
+                                          ? Colors.blue
+                                          : Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft:
+                                        const Radius.circular(Sizes.size20),
+                                    topRight:
+                                        const Radius.circular(Sizes.size20),
+                                    bottomLeft: Radius.circular(
+                                        isMine ? Sizes.size20 : Sizes.size5),
+                                    bottomRight: Radius.circular(
+                                        !isMine ? Sizes.size20 : Sizes.size5),
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
+                                child: Text(
+                                  message.text,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: Sizes.size16,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         );
                       },
                       separatorBuilder: (context, index) => Gaps.v10,

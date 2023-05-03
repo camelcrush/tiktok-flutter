@@ -12,6 +12,15 @@ class MessageRepository {
         .collection("texts")
         .add(message.toJson());
   }
+
+  Future<void> deleteMessage(String messageId, String chatId) async {
+    _db
+        .collection("chat_rooms")
+        .doc(chatId)
+        .collection("texts")
+        .doc(messageId)
+        .update({'text': '[deleted message]'});
+  }
 }
 
 final messageRepo = Provider((ref) => MessageRepository());

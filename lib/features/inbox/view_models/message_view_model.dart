@@ -22,9 +22,14 @@ class MessageViewModel extends AsyncNotifier<void> {
         text: text,
         userId: user!.uid,
         createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: '',
       );
       await _repo.sendMessage(message);
     });
+  }
+
+  Future<void> deleteMessage(String messageId, String chatId) async {
+    await _repo.deleteMessage(messageId, chatId);
   }
 }
 
@@ -46,7 +51,8 @@ final chatProvider = StreamProvider.autoDispose<List<MessageModel>>((ref) {
         (event) => event.docs
             .map(
               (doc) => MessageModel.fromJson(
-                doc.data(),
+                json: doc.data(),
+                messageId: doc.id,
               ),
             )
             .toList()
