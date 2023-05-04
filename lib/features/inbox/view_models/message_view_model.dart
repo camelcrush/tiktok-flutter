@@ -14,7 +14,7 @@ class MessageViewModel extends AsyncNotifier<void> {
     _repo = ref.read(messageRepo);
   }
 
-  Future<void> sendMessage(String text) async {
+  Future<void> sendMessage(String text, String chatId) async {
     final user = ref.read(authRepo).user;
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -24,7 +24,7 @@ class MessageViewModel extends AsyncNotifier<void> {
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: '',
       );
-      await _repo.sendMessage(message);
+      await _repo.sendMessage(message, chatId);
     });
   }
 
@@ -38,12 +38,13 @@ final messagesProvider = AsyncNotifierProvider<MessageViewModel, void>(
 );
 
 // StreamProvider : 채널(웹소켓)을 연결하여 listent상태로 유지 / autoDispose 필수
-final chatProvider = StreamProvider.autoDispose<List<MessageModel>>((ref) {
+final messageStreamProvider = StreamProvider.autoDispose
+    .family<List<MessageModel>, String>((ref, chatId) {
   final db = FirebaseFirestore.instance;
 
   return db
       .collection("chat_rooms")
-      .doc("SlBnqcYz38wcQYEdMz5A")
+      .doc(chatId)
       .collection("texts")
       .orderBy("createdAt")
       .snapshots()

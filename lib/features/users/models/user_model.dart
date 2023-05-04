@@ -38,7 +38,7 @@ class UserProfileModel {
         hasAvatar = json['hasAvatar'] ?? false;
 
 // Firestroe는 JSON을 받기 때문에
-  Map<String, String> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       "uid": uid,
       "email": email,
@@ -46,6 +46,7 @@ class UserProfileModel {
       "bio": bio,
       "link": link,
       "birthday": birthday,
+      "hasAvatar": hasAvatar,
     };
   }
 

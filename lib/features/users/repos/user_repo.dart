@@ -31,6 +31,11 @@ class UserRepository {
     // User Profile Update
     await _db.collection("users").doc(uid).update(data);
   }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchUsers(
+      String authUserId) async {
+    return _db.collection("users").where('uid', isNotEqualTo: authUserId).get();
+  }
 }
 
 final userRepo = Provider((ref) => UserRepository());

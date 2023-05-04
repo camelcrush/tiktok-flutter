@@ -8,6 +8,7 @@ import 'package:tiktokapp/features/authentication/sign_up_screen.dart';
 import 'package:tiktokapp/features/inbox/activity_screen.dart';
 import 'package:tiktokapp/features/inbox/chat_detail_screen.dart';
 import 'package:tiktokapp/features/inbox/chats_screen.dart';
+import 'package:tiktokapp/features/inbox/create_chat_screen.dart';
 import 'package:tiktokapp/features/notifications/notifications_provider.dart';
 import 'package:tiktokapp/features/onboarding/interests_screen.dart';
 import 'package:tiktokapp/features/videos/views/video_recording_screen.dart';
@@ -69,6 +70,11 @@ final routerProvider = Provider(
                 path: ActivityScreen.routeURL,
                 name: ActivityScreen.routeName,
                 builder: (context, state) => const ActivityScreen(),
+              ),
+              GoRoute(
+                path: CreateChatScreen.routeURL,
+                name: CreateChatScreen.routeName,
+                builder: (context, state) => const CreateChatScreen(),
               ),
               GoRoute(
                 path: ChatsScreen.routeURL,

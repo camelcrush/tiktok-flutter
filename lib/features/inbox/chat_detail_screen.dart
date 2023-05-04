@@ -34,7 +34,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   void _onSendPress() {
     final text = _editingController.text;
     if (text == "") return;
-    ref.read(messagesProvider.notifier).sendMessage(text);
+    ref.read(messagesProvider.notifier).sendMessage(text, widget.chatId);
     _editingController.text = "";
   }
 
@@ -77,9 +77,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               )
             ],
           ),
-          title: Text(
-            "Camel (${widget.chatId})",
-            style: const TextStyle(
+          title: const Text(
+            "Camel",
+            style: TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -106,7 +106,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         onTap: _onDismissKeyboard,
         child: Stack(
           children: [
-            ref.watch(chatProvider).when(
+            ref.watch(messageStreamProvider(widget.chatId)).when(
                   data: (data) {
                     return ListView.separated(
                       reverse: true,
@@ -122,40 +122,44 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                         final isMine =
                             message.userId == ref.watch(authRepo).user!.uid;
                         return GestureDetector(
-                          onLongPress: () {
-                            showCupertinoDialog(
-                              context: context,
-                              builder: (context) => CupertinoAlertDialog(
-                                title:
-                                    const Text("Sure to delete this message?"),
-                                content: const Text("Confirm"),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    onPressed: () => context.pop(),
-                                    isDefaultAction: true,
-                                    child: const Text("NO"),
-                                  ),
-                                  CupertinoDialogAction(
-                                    isDefaultAction: true,
-                                    isDestructiveAction: true,
-                                    onPressed: () async {
-                                      if (isMine &&
-                                          message.text != '[deleted message]') {
-                                        await ref
-                                            .read(messagesProvider.notifier)
-                                            .deleteMessage(message.id,
-                                                "SlBnqcYz38wcQYEdMz5A");
-                                        if (mounted) {
-                                          context.pop();
-                                        }
-                                      }
-                                    },
-                                    child: const Text("Yes"),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
+                          onLongPress: !isMine
+                              ? null
+                              : () {
+                                  showCupertinoDialog(
+                                    context: context,
+                                    builder: (context) => CupertinoAlertDialog(
+                                      title: const Text(
+                                          "Sure to delete this message?"),
+                                      content: const Text("Confirm"),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          onPressed: () => context.pop(),
+                                          isDefaultAction: true,
+                                          child: const Text("NO"),
+                                        ),
+                                        CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          isDestructiveAction: true,
+                                          onPressed: () async {
+                                            if (isMine &&
+                                                message.text !=
+                                                    '[deleted message]') {
+                                              await ref
+                                                  .read(
+                                                      messagesProvider.notifier)
+                                                  .deleteMessage(message.id,
+                                                      widget.chatId);
+                                              if (mounted) {
+                                                context.pop();
+                                              }
+                                            }
+                                          },
+                                          child: const Text("Yes"),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: isMine
