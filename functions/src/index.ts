@@ -141,12 +141,20 @@ export const onChatRoomCreated = functions.firestore
       .doc(personA)
       .collection("chat_rooms")
       .doc(snapshot.id)
-      .set({ personA: personA, personB: personB });
+      .set({
+        personA: personA,
+        personB: personB,
+        createdAt: Date.now(),
+      });
 
     await db
       .collection("users")
       .doc(personB)
       .collection("chat_rooms")
       .doc(snapshot.id)
-      .set({ personA: personB, personB: personA });
+      .set({
+        personA: personB,
+        personB: personA,
+        createdAt: Date.now(),
+      });
   });
