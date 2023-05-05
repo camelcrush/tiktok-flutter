@@ -6,6 +6,7 @@ import 'package:tiktokapp/constants/gaps.dart';
 import 'package:tiktokapp/features/inbox/chat_detail_screen.dart';
 import 'package:tiktokapp/features/inbox/create_chat_screen.dart';
 import 'package:tiktokapp/features/inbox/view_models/chats_view_model.dart';
+import 'package:tiktokapp/features/users/view_models/users_view_model.dart';
 
 class ChatsScreen extends ConsumerStatefulWidget {
   static const String routeName = "chats";
@@ -110,11 +111,14 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
           )
         ],
       ),
-      body: ref.watch(chatsProvider).when(
+      body: ref.watch(chatRoomStreamProvider).when(
             data: (data) {
               return ListView.separated(
                 itemBuilder: (context, index) {
                   final chatRoom = data[index];
+                  final personBProfile = ref
+                      .read(usersProvider.notifier)
+                      .findUserById(chatRoom.personB);
                   return GestureDetector(
                     onTap: () => _onChatTap(chatRoom.chatRoomId),
                     child: ListTile(

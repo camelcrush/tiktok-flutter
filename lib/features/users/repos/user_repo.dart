@@ -36,6 +36,11 @@ class UserRepository {
       String authUserId) async {
     return _db.collection("users").where('uid', isNotEqualTo: authUserId).get();
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> findUserById(
+      String userId) async {
+    return _db.collection("users").doc(userId).get();
+  }
 }
 
 final userRepo = Provider((ref) => UserRepository());

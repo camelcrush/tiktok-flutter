@@ -91,6 +91,13 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
       context.pop();
     }
   }
+
+  Future<void> findUserById(String userId) async {
+    state = const AsyncValue.loading();
+    final result = await _userRepo.findUserById(userId);
+    final profile = result.data()!;
+    state = AsyncValue.data(UserProfileModel.fromJson(profile));
+  }
 }
 
 final usersProvider = AsyncNotifierProvider<UsersViewModel, UserProfileModel>(

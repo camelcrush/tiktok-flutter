@@ -8,9 +8,12 @@ import 'package:tiktokapp/features/authentication/repos/authentication_repo.dart
 import 'package:tiktokapp/features/inbox/chat_detail_screen.dart';
 import 'package:tiktokapp/features/inbox/models/chat_room_model.dart';
 import 'package:tiktokapp/features/inbox/repos/chat_room_repo.dart';
+import 'package:tiktokapp/features/users/models/user_model.dart';
+import 'package:tiktokapp/features/users/repos/user_repo.dart';
 
 class ChatsViewModel extends AsyncNotifier<List<ChatRoomModel>> {
   late final ChatRoomRepository _chatRoomRepository;
+  late final UserRepository _userRepo;
   List<ChatRoomModel> _list = [];
 
   Future<void> createChatRoom(String personBId, BuildContext context) async {
@@ -46,8 +49,15 @@ class ChatsViewModel extends AsyncNotifier<List<ChatRoomModel>> {
   @override
   FutureOr<List<ChatRoomModel>> build() async {
     _chatRoomRepository = ref.read(chatRoomRepo);
+    _userRepo = ref.read(userRepo);
     _list = await _fetchChatRooms();
     return _list;
+  }
+
+  Future<UserProfileModel> findUserById(String userId) async {
+    final result = await _userRepo.findUserById(userId);
+    final profile = result.data()!;
+    return UserProfileModel.fromJson(profile);
   }
 }
 
@@ -65,7 +75,7 @@ final chatRoomStreamProvider =
       .collection("users")
       .doc(user.uid)
       .collection("chat_rooms")
-      .orderBy("createdAt")
+      .orderBy('createdAt')
       .snapshots()
       .map((event) => event.docs
           .map(
